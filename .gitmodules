@@ -1,0 +1,9 @@
+[submodule "openmaptiles"]
+	path = openmaptiles
+	url = https://github.com/openmaptiles/openmaptiles.git
+[submodule "fonts"]
+	path = fonts
+	url = https://github.com/openmaptiles/fonts
+[submodule "styles/klokantech-basic-gl-style"]
+	path = styles/klokantech-basic-gl-style
+	url = https://github.com/openmaptiles/klokantech-basic-gl-style.git
