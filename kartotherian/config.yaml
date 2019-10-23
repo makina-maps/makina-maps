@@ -82,6 +82,14 @@ services:
       - "@mapbox/tilejson"
       - "tilelive-gl"
 
-      requestHandlers: []
-#      - "@kartotherian/maki"
-#      - "@kartotherian/snapshot"
+      requestHandlers:
+      - kartotherian_gl_style_requestHandlers
+
+      styles:
+        public_prefix: http://localhost:6534
+        paths:
+          styles: /styles
+          fonts: /fonts
+        styles:
+          basic:
+            style: klokantech-basic-gl-style/style-local.json

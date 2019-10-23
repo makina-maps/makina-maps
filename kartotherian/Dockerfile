@@ -20,6 +20,7 @@ RUN chown node /opt && \
 WORKDIR /opt/kartotherian/
 RUN lerna bootstrap --nohoist mapnik --nohoist libxmljs
 RUN lerna add "tilelive-gl@git+https://git@github.com/trailbehind/tilelive-gl.git"
+RUN lerna add "kartotherian_gl_style_requestHandlers@git+https://github.com/frodrigo/kartotherian_gl_style_requestHandlers.git"
 
 WORKDIR /opt/kartotherian/packages/kartotherian
 COPY --chown=node config.yaml .

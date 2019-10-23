@@ -1,34 +1,38 @@
-openmaptiles_source:
+v3_source:
   uri: tmsource:///data/openmaptiles.tm2source
   overrideInfo:
     attribution: 'Map data © <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
 
 # Filter out any small tiles without significant data on or after zoom 10
-openmaptiles_substantial:
+v3_substantial:
   uri: substantial://
   params:
-    source: {ref: openmaptiles_source}
+    source: {ref: v3_source}
     minzoom: 10
     minsize: 500
     layers: [water, landuse]
 
 # If tile has been filtered out by substgen, use overzoom to recreate it
-openmaptiles:
+v3:
   public: true
   formats: [pbf]
   uri: overzoom://
   params:
-    source: {ref: openmaptiles_substantial}
+    source: {ref: v3_substantial}
   overrideInfo:
-    tiles: [{env: OPENMAPTILES_TILES_URL}]
+    Layer:
+    _prefs:
+    tiles: [{env: V3_TILES_URL}]
 
-openmaptiles_internal:
+v3_internal:
   public: true
   formats: [pbf]
   uri: overzoom://
   params:
-    source: {ref: openmaptiles_substantial}
+    source: {ref: v3_substantial}
   overrideInfo:
+    Layer:
+    _prefs:
     tiles: [{env: OPENMAPTILES_TILES_URL_INTERNAL}]
 
 # View tiles as generated directly from the database. Don't view zoom0-5

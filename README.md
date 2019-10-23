@@ -53,7 +53,11 @@ make psql-analyze
 docker-compose -p openmaptiles -f docker-compose.yml up
 ```
 
-The direct acces the proxified tiles server are at http://0.0.0.0:6534/openmaptiles/info.json and http://0.0.0.0:6534/?s=basic
+The direct acces the proxified tiles server are at:
+
+* OpenMapTiles TileJson: http://0.0.0.0:6534/v3/info.json
+* Default "Basic" style: http://0.0.0.0:6534/styles/basic/style.json
+
 Unproxified is also available on port 6533.
 
 ## Benchmark
