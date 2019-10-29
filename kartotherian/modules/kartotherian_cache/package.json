@@ -1,0 +1,26 @@
+{
+  "name": "kartotherian_cache",
+  "version": "0.0.10",
+  "description": "Cache tiles",
+  "main": "cache.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "makinacorpus/makina-maps",
+  "keywords": [
+    "kartotherian",
+    "tilelive"
+  ],
+  "author": "Frédéric Rodrigo <fred.rodrigo@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": "https://github.com/makinacorpus/makina-maps/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "redis": "^2.8.0",
+    "@kartotherian/err": "^0.0.4",
+    "@kartotherian/input-validator": "^0.0.6"
+  }
+}

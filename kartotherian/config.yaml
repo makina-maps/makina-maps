@@ -74,11 +74,11 @@ services:
       - "@kartotherian/substantial"
       - "@kartotherian/tilelive-tmsource"
       - "@mapbox/tilejson"
-      - tilelive_kartotherian_cache
+      - kartotherian_cache
       - kartotherian_gl
 
       requestHandlers:
-      - kartotherian_gl_style_requestHandlers
+      - kartotherian_gl_style_server
 
       styles:
         prefix_public: http://localhost:6533

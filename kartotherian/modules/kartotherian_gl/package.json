@@ -1,0 +1,28 @@
+{
+  "name": "kartotherian_gl",
+  "version": "0.0.10",
+  "description": "Tilelive GL for Kartotherian",
+  "main": "kgl.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "makinacorpus/makina-maps",
+  "keywords": [
+    "kartotherian",
+    "tilelive"
+  ],
+  "author": "Frédéric Rodrigo <fred.rodrigo@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": "https://github.com/makinacorpus/makina-maps/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@kartotherian/err": "^0.0.4",
+    "@kartotherian/input-validator": "^0.0.6",
+    "bluebird": "^3.5.0",
+    "kartotherian_gl_style_server": "file:../kartotherian_gl_style_server",
+    "tilelive-gl": "git+https://git@github.com/trailbehind/tilelive-gl.git",
+    "tmp": "^0.1.0"
+  }
+}
