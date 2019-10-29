@@ -1,5 +1,12 @@
 # Makina Maps
 
+Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [Kartotherian](Kartotherian) with the ability to:
+
+* Build Vector Tiles on Demand from the OpenMapTiles database
+* Served Mapbox GL Style, with sprites and fonts
+* Render Raster version of Mapbox GL style
+* Cache vector and Raster tiles
+
 ## Install
 
 ```
@@ -53,7 +60,7 @@ make psql-analyze
 docker-compose -p openmaptiles -f docker-compose.yml up
 ```
 
-The direct acces the proxified tiles server are at:
+The direct acces to cached tiles and services at:
 
 * OpenMapTiles TileJson: http://0.0.0.0:6534/v3/info.json
 * Default "Basic" GL JSON Style: http://0.0.0.0:6534/styles/basic/style.json
@@ -61,6 +68,66 @@ The direct acces the proxified tiles server are at:
   * TileJSON: http://0.0.0.0:6533/basic/info.json
   * Raster tiles: http://0.0.0.0:6533/basic/{z}/{x}/{y}.png
   * Demo: http://0.0.0.0:6533/?s=basic
+
+### Configuration
+
+Configuration files are Kartotherian configuration files `config.yaml` and `sources.yaml`.
+
+#### config.yaml
+
+Specific configuration part.
+
+```yaml
+services:
+  - name: kartotherian
+      modules:
+      - "tilelive-tmstyle"
+      - "@kartotherian/overzoom"
+      - "@kartotherian/substantial"
+      - "@kartotherian/tilelive-tmsource"
+      - "@mapbox/tilejson"
+      - kartotherian_cache # Local cache
+      - kartotherian_gl # Render raster tiles
+
+      requestHandlers:
+      - kartotherian_gl_style_server # Serve Mapbox GL Style
+
+      styles:
+        prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
+        prefix_internal: http://kartotherian:6533 # Internal, required for render raster
+        paths:
+          styles: /styles # Path to styles, in the Docker container
+          fonts: /fonts # Path to fonts, in the Docker container
+        styles:
+          basic: # Name of the style
+            style: klokantech-basic-gl-style/style-local.json # Relative path the style JSON
+            sources_map: # Map of the style source (`mbtiles://{v3}`) to source name from `sources.yaml`
+              v3: openmaptiles_v3
+            sources_map_internal: # Internal, required for render raster
+              v3: openmaptiles_v3_raster
+
+      cache:
+        redis: # Use Redis cache on Docker host `redis`
+          host: redis
+```
+
+#### styles.yaml
+
+Cache setup
+
+```yaml
+openmaptiles_v3:
+  uri: cache://
+```
+
+Mapbox GL native raster
+
+```yaml
+source_name:
+  uri: kartotherian+gl:///
+  params:
+    style: basic # Style defined in to `config.yaml`
+```
 
 ## Benchmark
 
@@ -102,3 +169,4 @@ ALTER DATABASE openmaptiles SET log_min_duration_statement = 100;
 
 * Test perf to replace tilelive-tmsource (based on mapnik) by postile.
 * Use GPU in docker to render.
+* Support tile cache invalidation
