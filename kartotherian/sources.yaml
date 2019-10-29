@@ -29,6 +29,8 @@ openmaptiles_v3:
     _prefs:
     tiles: [{env: OPENMAPTILES_V3_TILES_URL}]
 
+# Raster
+
 openmaptiles_v3_raster:
   public: true
   formats: [pbf]
@@ -39,11 +41,9 @@ openmaptiles_v3_raster:
     tiles: [{env: OPENMAPTILES_V3_TILES_URL_INTERNAL}]
 
 basic_source:
-  public: true
-  formats: [png, jpeg, webp]
   uri: kartotherian+gl:///
   params:
-    style: basic_raster
+    style: basic
 
 basic:
   public: true

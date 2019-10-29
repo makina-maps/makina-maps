@@ -26,8 +26,9 @@ function styleResolve(core, style, local = false) {
       }
 
       let sourceName = mbtilesFile;
-      if (styleConfig.sources_map) {
-        sourceName = styleConfig.sources_map[sourceName] || sourceName;
+      const source_map = local ? styleConfig.sources_map_internal : styleConfig.sources_map;
+      if (source_map) {
+        sourceName = source_map[sourceName] || sourceName;
       }
       try {
         // Check if style is available

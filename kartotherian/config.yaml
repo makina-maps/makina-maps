@@ -91,9 +91,7 @@ services:
             style: klokantech-basic-gl-style/style-local.json
             sources_map:
               v3: openmaptiles_v3
-          basic_raster:
-            style: klokantech-basic-gl-style/style-local.json
-            sources_map:
+            sources_map_internal:
               v3: openmaptiles_v3_raster
 
       cache:
