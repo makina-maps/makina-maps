@@ -15,12 +15,14 @@ RUN npm install -g npm@latest && \
     npm install -g lerna
 
 RUN chown node /opt && \
-    git clone --single-branch --branch cutomize_tilejson_var https://github.com/frodrigo/kartotherian.git /opt/kartotherian
+    git clone --single-branch --branch makina_maps https://github.com/frodrigo/kartotherian.git /opt/kartotherian
 
 WORKDIR /opt/kartotherian/
 RUN lerna bootstrap --nohoist mapnik --nohoist libxmljs
 RUN lerna add "tilelive-gl@git+https://git@github.com/trailbehind/tilelive-gl.git"
+RUN lerna add "tilelive_kartotherian_cache@git+https://github.com/frodrigo/tilelive_kartotherian_cache.git"
 RUN lerna add "kartotherian_gl_style_requestHandlers@git+https://github.com/frodrigo/kartotherian_gl_style_requestHandlers.git"
+RUN lerna add "kartotherian_gl@git+https://github.com/frodrigo/kartotherian_gl.git"
 
 WORKDIR /opt/kartotherian/packages/kartotherian
 COPY --chown=node config.yaml .

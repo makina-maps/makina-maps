@@ -5,7 +5,6 @@ volumes:
     # Avoid droping the database on docker-compose down
     external: true
     name: openmaptiles_pgdata
-  squid_cache:
 
 services:
   postgres:
@@ -15,8 +14,15 @@ services:
     networks:
       - postgres_conn
     ports:
-     - "5432"
+      - "5432"
     env_file: openmaptiles/.env
+
+  redis:
+    image: redis:5-alpine
+    networks:
+      - postgres_conn
+    ports:
+      - "6379"
 
   kartotherian:
     build:
@@ -34,21 +40,8 @@ services:
     ports:
       - "6533:6533"
     environment:
-     - V3_TILES_URL=${BASE_URL:-http://localhost:6534}/v3/{z}/{x}/{y}.pbf
-     - V3_TILES_URL_INTERNAL=${BASE_URL:-http://squid:80}/v3_internal/{z}/{x}/{y}.pbf
-
-  squid:
-    image: sameersbn/squid
-    hostname: squid
-    volumes:
-     - ./squid.conf:/etc/squid/squid.conf
-     - squid_cache:/var/spool/squid
-    links:
-     - kartotherian
-    networks:
-      - postgres_conn
-    ports:
-      - "6534:80"
+      - OPENMAPTILES_V3_TILES_URL=${BASE_URL:-http://localhost:6533}/openmaptiles_v3/{z}/{x}/{y}.pbf
+      - OPENMAPTILES_V3_TILES_URL_INTERNAL=${BASE_URL:-http://kartotherian:6533}/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
 
 networks:
   postgres_conn:

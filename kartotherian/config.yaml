@@ -70,26 +70,32 @@ services:
 
       modules:
       - "tilelive-tmstyle"
-#      - "@kartotherian/autogen"
-#      - "@kartotherian/babel"
-#      - "@kartotherian/cassandra"
-#      - "@kartotherian/layermixer"
       - "@kartotherian/overzoom"
-#      - "@kartotherian/postgres"
       - "@kartotherian/substantial"
       - "@kartotherian/tilelive-tmsource"
-#      - "@kartotherian/tilelive-vector"
       - "@mapbox/tilejson"
-      - "tilelive-gl"
+      - tilelive_kartotherian_cache
+      - kartotherian_gl
 
       requestHandlers:
       - kartotherian_gl_style_requestHandlers
 
       styles:
-        public_prefix: http://localhost:6534
+        prefix_public: http://localhost:6533
+        prefix_internal: http://kartotherian:6533
         paths:
           styles: /styles
           fonts: /fonts
         styles:
           basic:
             style: klokantech-basic-gl-style/style-local.json
+            sources_map:
+              v3: openmaptiles_v3
+          basic_raster:
+            style: klokantech-basic-gl-style/style-local.json
+            sources_map:
+              v3: openmaptiles_v3_raster
+
+      cache:
+        redis:
+          host: redis

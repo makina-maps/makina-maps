@@ -56,9 +56,11 @@ docker-compose -p openmaptiles -f docker-compose.yml up
 The direct acces the proxified tiles server are at:
 
 * OpenMapTiles TileJson: http://0.0.0.0:6534/v3/info.json
-* Default "Basic" style: http://0.0.0.0:6534/styles/basic/style.json
-
-Unproxified is also available on port 6533.
+* Default "Basic" GL JSON Style: http://0.0.0.0:6534/styles/basic/style.json
+* Default "Basic" raster:
+  * TileJSON: http://0.0.0.0:6533/basic/info.json
+  * Raster tiles: http://0.0.0.0:6533/basic/{z}/{x}/{y}.png
+  * Demo: http://0.0.0.0:6533/?s=basic
 
 ## Benchmark
 
