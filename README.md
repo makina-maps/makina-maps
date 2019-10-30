@@ -145,7 +145,7 @@ Specific only on 8CPU (import-osm, import-sql and psql-analyze).
 |-|-:|-:|-:|
 | Andorra | 243 Ko | 3.5 Go | 36 s |
 | Alsace | 100 Mo | 4.5 Go | 3 min 20 s |
-| Aquitiane | 214 Mo | 6.4 Go | 6 min 40 s |
+| Aquitaine | 214 Mo | 6.4 Go | 6 min 40 s |
 | Austria | 559 Mo | 9.4 Go | 23 min |
 | France | 3.5 Go | 35 Go | 105 min |
 | Europe | 20 Go | | | |
