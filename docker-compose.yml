@@ -28,7 +28,9 @@ services:
     build:
       context: kartotherian
     volumes:
-      - ./kartotherian/modules:/opt/modules
+      - ./kartotherian/modules/kartotherian_gl_style_server:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl_style_server
+      - ./kartotherian/modules/kartotherian_cache:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_cache
+      - ./kartotherian/modules/kartotherian_gl:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl
       - ./kartotherian/config.yaml:/opt/kartotherian/packages/kartotherian/config.yaml
       - ./kartotherian/sources.yaml:/opt/kartotherian/packages/kartotherian/sources.yaml
       - ./openmaptiles/build/openmaptiles.tm2source:/data/openmaptiles.tm2source
