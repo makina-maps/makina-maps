@@ -37,8 +37,8 @@ Import OpenStreetMap data
 
 Force to clean previously imported OpenStreetMap data.
 ```
-docker-compose -p openmaptiles -f docker-compose-yml up -d postgres
-docker-compose -p openmaptiles -f docker-compose.yml exec postgres psql openmaptiles openmaptiles -c "
+docker-compose up -d postgres
+docker-compose exec postgres psql openmaptiles openmaptiles -c "
 DROP SCHEMA backup CASCADE
 "
 ```
