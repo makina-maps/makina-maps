@@ -87,6 +87,7 @@ services:
       - "@kartotherian/tilelive-tmsource"
       - "@mapbox/tilejson"
       - kartotherian_cache # Local cache
+      - "kartotherian_cache/RedisStore" # Redis cache Storage
       - kartotherian_gl # Render raster tiles
 
       requestHandlers:
@@ -105,10 +106,6 @@ services:
               v3: openmaptiles_v3
             sources_map_internal: # Internal, required for render raster
               v3: openmaptiles_v3_raster
-
-      cache:
-        redis: # Use Redis cache on Docker host `redis`
-          host: redis
 ```
 
 #### styles.yaml
@@ -116,8 +113,17 @@ services:
 Cache setup
 
 ```yaml
+openmaptiles_v3_cache: # Redis Tiles Storage
+  uri: redis://
+  params:
+    host: redis
+    namespace: openmaptiles_v3_cache
+
 openmaptiles_v3:
   uri: cache://
+  params:
+    source: {ref: openmaptiles_v3_overzoom} # Tiles Source
+    storage: {ref: openmaptiles_v3_cache} # Cache Tiles Storage
 ```
 
 Mapbox GL native raster

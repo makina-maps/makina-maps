@@ -18,12 +18,19 @@ openmaptiles_v3_overzoom:
   params:
     source: {ref: openmaptiles_v3_substantial}
 
+openmaptiles_v3_cache:
+  uri: redis://
+  params:
+    host: redis
+    namespace: openmaptiles_v3_cache
+
 openmaptiles_v3:
   public: true
   formats: [pbf]
   uri: cache://
   params:
     source: {ref: openmaptiles_v3_overzoom}
+    storage: {ref: openmaptiles_v3_cache}
   overrideInfo:
     Layer:
     _prefs:
@@ -45,9 +52,16 @@ basic_source:
   params:
     style: basic
 
+basic_cache:
+  uri: redis://
+  params:
+    host: redis
+    namespace: basic_cache
+
 basic:
   public: true
   formats: [png, jpeg, webp]
   uri: cache://
   params:
     source: {ref: basic_source}
+    storage: {ref: basic_cache}
