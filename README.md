@@ -1,6 +1,6 @@
 # Makina Maps
 
-Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [Kartotherian](Kartotherian) with the ability to:
+Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [Kartotherian](https://github.com/kartotherian/kartotherian) with the ability to:
 
 * Build Vector Tiles on Demand from the OpenMapTiles database
 * Served Mapbox GL Style, with sprites and fonts
