@@ -145,7 +145,7 @@ Specific only on 8CPU (import-osm, import-sql and psql-analyze).
 |-|-:|-:|-:|
 | Andorra | 243 Ko | 3.5 Go | 36 s |
 | Alsace | 100 Mo | 4.5 Go | 3 min 20 s |
-| Aquitiane | 559 Mo | | 6 min 40 s |
+| Aquitiane | 214 Mo | 6.4 Go | 6 min 40 s |
 | Austria | 559 Mo | 9.4 Go | 23 min |
 | France | 3.5 Go | 35 Go | 105 min |
 | Europe | 20 Go | | | |
@@ -154,7 +154,7 @@ Specific only on 8CPU (import-osm, import-sql and psql-analyze).
 
 Data size of the current data.
 ```
-docker-compose -p openmaptiles -f docker-compose.yml exec postgres psql openmaptiles openmaptiles -c "
+docker-compose exec postgres psql openmaptiles openmaptiles -c "
 SELECT
   pg_size_pretty(sum(pg_relation_size(pg_catalog.pg_class.oid))::bigint) as table_size
 FROM
