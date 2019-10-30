@@ -170,9 +170,3 @@ Show log query
 ```sql
 ALTER DATABASE openmaptiles SET log_min_duration_statement = 100;
 ```
-
-## TODO
-
-* Test perf to replace tilelive-tmsource (based on mapnik) by postile.
-* Use GPU in docker to render.
-* Support tile cache invalidation
