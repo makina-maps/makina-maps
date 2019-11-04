@@ -3,14 +3,36 @@ const path = require('path');
 const Err = require('@kartotherian/err');
 
 function styleResolve(core, style, local = false) {
-  const server_prefix = local ? core.getConfiguration().styles.prefix_internal : core.getConfiguration().styles.prefix_public;
+  config = core.getConfiguration().styles;
 
-  const styleConfig = core.getConfiguration().styles.styles[style];
+  if (!config) {
+    throw new Err('"styles" configuration block is not set up in the config');
+  }
 
-  const stylesPath = core.getConfiguration().styles.paths.styles;
+  if (!config.prefix_internal || !config.prefix_public) {
+    throw new Err('"styles" configuration must specify "prefix_internal" and "prefix_public"');
+  }
+  const server_prefix = local ? config.prefix_internal : config.prefix_public;
+
+  if (!config.paths || !config.paths.styles) {
+    throw new Err('"styles" configuration must specify "paths.styles"');
+  }
+  const stylesPath = config.paths.styles;
+
+  if (!config.styles) {
+    throw new Err('"styles" configuration must specify a "styles" list');
+  }
+  if (!config.styles[style]) {
+    throw new Err(`"styles" configuration does not define style "${style}"`);
+  }
+  const styleConfig = config.styles[style];
+
+  if (!styleConfig.style) {
+    throw new Err(`"style" configuration does not define relative path for style "${style}"`);
+  }
   const styleRelativePath = styleConfig.style;
-  const styleFile = path.resolve(stylesPath, styleRelativePath);
 
+  const styleFile = path.resolve(stylesPath, styleRelativePath);
   const styleJSON = clone(require(styleFile));
 
   Object.keys(styleJSON.sources).forEach((name) => {
