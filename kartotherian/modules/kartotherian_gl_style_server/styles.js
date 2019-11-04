@@ -54,12 +54,27 @@ function fontsHandler(req, res, next) {
   const { params } = req;
 
   return Promise.try(() => {
-    const fontFile = path.resolve(core.getConfiguration().styles.paths.fonts, params.fontstack, params.range + '.pbf');
+    const fontFile = path.resolve(
+      core.getConfiguration().styles.paths.fonts,
+      params.fontstack,
+      params.range + '.pbf');
 
     try {
       return fs.readFileSync(fontFile);
     } catch (error) {
-      throw new Err('File not found');
+      core.log('info', `Font ${params.fontstack} not found`);
+      if (core.getConfiguration().styles.font_fallback) {
+        const fontFile = path.resolve(
+          core.getConfiguration().styles.paths.fonts,
+          core.getConfiguration().styles.font_fallback,
+          params.range + '.pbf');
+        try {
+          return fs.readFileSync(fontFile);
+        } catch (error) {
+          throw new Err('Font not found, and Fallback Font not found').metrics('err.req.font_falback');
+        }
+      }
+      throw new Err('Font not found').metrics('err.req.font');
     }
   }).then((data) => {
     core.setResponseHeaders(res);

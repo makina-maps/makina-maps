@@ -12,8 +12,6 @@ Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/open
 ```
 git clone
 git submodule update --init --recursive
-ln -s Klokantech\ Noto\ Sans\ Bold fonts/Noto\ Sans\ Bold
-ln -s Klokantech\ Noto\ Sans\ Regular fonts/Noto\ Sans\ Regular
 ```
 
 ### OpenStreetMap load
@@ -99,6 +97,7 @@ services:
         paths:
           styles: /styles # Path to styles, in the Docker container
           fonts: /fonts # Path to fonts, in the Docker container
+        font_fallback: Klokantech Noto Sans Regular # Serve this font when the font is not found
         styles:
           basic: # Name of the style
             style: klokantech-basic-gl-style/style-local.json # Relative path the style JSON
