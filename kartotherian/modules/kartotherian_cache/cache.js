@@ -10,6 +10,8 @@ function Cache(uri, callback) {
         if (!params.source) {
             throw new Err("Uri must include 'source' query parameter: %j", uri);
         }
+        checkType(params, 'minzoom', 'integer', 0, 0, 22);
+        checkType(params, 'maxzoom', 'integer', 14, params.minzoom + 1, 22);
         this.params = params;
 
         // Why we need to loadSource in a promise ????
@@ -31,32 +33,36 @@ function Cache(uri, callback) {
 }
 
 Cache.prototype.getTile = function (z, x, y, callback) {
-    this.cache.getTile(z, x, y, (err, tile_cached, options) => {
-        if (err && err.message != 'Tile does not exist') {
-            return callback(err, null, options);
-        }
+    if (z < this.params.minzoom || z > this.params.maxzoom) {
+        return this.source.getTile(z, x, y, callback);
+    } else {
+        this.cache.getTile(z, x, y, (err, tile_cached, options) => {
+            if (err && err.message != 'Tile does not exist') {
+                return callback(err, null, options);
+            }
 
-        if (tile_cached) {
-            return callback(null, tile_cached, {
-                "Content-Type": "application/x-protobuf",
-                "x-tilelive-contains-data": true,
-                "Content-Encoding": "gzip"
-            });
-        } else {
-            return this.source.getTile(z, x, y, (err, tile, options) => {
-                if (tile) {
-                    Promise.try(() => {
-                        this.cache.putTile(z, x, y, tile, (err) => {
-                            if (err) {
-                            }
-                            throw err;
+            if (tile_cached) {
+                return callback(null, tile_cached, {
+                    "Content-Type": "application/x-protobuf",
+                    "x-tilelive-contains-data": true,
+                    "Content-Encoding": "gzip"
+                });
+            } else {
+                return this.source.getTile(z, x, y, (err, tile, options) => {
+                    if (tile) {
+                        Promise.try(() => {
+                            this.cache.putTile(z, x, y, tile, (err) => {
+                                if (err) {
+                                }
+                                throw err;
+                            });
                         });
-                    });
-                }
-                return callback(err, tile, options);
-            });
-        }
-    });
+                    }
+                    return callback(err, tile, options);
+                });
+            }
+        });
+    }
 };
 
 Cache.prototype.getInfo = function (callback) {

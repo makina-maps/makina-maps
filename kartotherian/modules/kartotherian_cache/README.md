@@ -17,6 +17,8 @@ openmaptiles_v3:
   params:
     source: {ref: openmaptiles_v3_overzoom} # Tiles Source
     storage: {ref: openmaptiles_v3_cache} # Cache Tiles Storage
+    minzoom: 0 # Min zoom level to be cached
+    maxzoom: 14 # Max zoom level to be cached
 ```
 
 See [Kartotherian](https://github.com/kartotherian/kartotherian)
