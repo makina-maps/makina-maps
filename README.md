@@ -59,8 +59,9 @@ make psql-analyze
 
 ### Run the tiles server
 
+From root directory.
 ```
-docker-compose -p openmaptiles -f docker-compose.yml up
+docker-compose up
 ```
 
 The direct acces to cached tiles and services at:
