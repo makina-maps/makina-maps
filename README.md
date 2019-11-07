@@ -10,25 +10,31 @@ Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/open
 ## Install
 
 ```
-git clone
+git clone https://github.com/makinacorpus/makina-maps.git
+cd makina-maps
 git submodule update --init --recursive
 ```
 
 ### OpenStreetMap load
 
-Import generic data
+Download OpenStreetMap extract:
+```
+wget http://download.geofabrik.de/europe/andorra-latest.osm.pbf -P openmaptiles/data/
+```
+
+Prepare OpenMapTiles configuration
 ```
 cd openmaptiles
+make
+```
+
+Import generic data
+```
 docker-compose up -d postgres && \
 docker-compose run --rm import-water && \
 docker-compose run --rm import-osmborder && \
 docker-compose run --rm import-natural-earth && \
 docker-compose run --rm import-lakelines
-```
-
-Download OpenStreetMap extract:
-```
-wget http://download.geofabrik.de/europe/andorra-latest.osm.pbf -P openmaptiles/data/
 ```
 
 Import OpenStreetMap data
@@ -43,7 +49,6 @@ DROP SCHEMA backup CASCADE
 
 Time the import of a pbf from data directory
 ```
-cd openmaptiles && \
 time bash -c "\
 docker-compose run --rm import-osm && \
 docker-compose run --rm import-wikidata && \
@@ -138,7 +143,7 @@ source_name:
 
 ### Import size and time
 
-Specific only on 8CPU (import-osm, import-sql and psql-analyze).
+Specific only on 8CPU (import-osm, import-sql and psql-analyze, without docker pulling time).
 
 | Area | PBF size | Postgres size | Import time |
 |-|-:|-:|-:|
