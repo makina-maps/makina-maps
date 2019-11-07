@@ -31,6 +31,10 @@ openmaptiles_v3:
   params:
     source: {ref: openmaptiles_v3_overzoom}
     storage: {ref: openmaptiles_v3_cache}
+    http_headers:
+      Content-Type: application/x-protobuf
+      x-tilelive-contains-data: true
+      Content-Encoding: gzip
   overrideInfo:
     Layer:
     _prefs:
@@ -65,3 +69,6 @@ basic:
   params:
     source: {ref: basic_source}
     storage: {ref: basic_cache}
+    http_headers:
+      Content-Type: image/png
+      x-tilelive-contains-data: true

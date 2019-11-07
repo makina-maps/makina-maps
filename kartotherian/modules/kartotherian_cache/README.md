@@ -6,7 +6,8 @@ A cache tilelive module for Kartotherian. Adaptator over a Tile Storage Source.
 For now cache with Redis included.
 
 On Sources
-```yamlopenmaptiles_v3_cache: # Redis Tiles Storage
+```yaml
+openmaptiles_v3_cache: # Redis Tiles Storage
   uri: redis://
   params:
     host: redis
@@ -19,6 +20,11 @@ openmaptiles_v3:
     storage: {ref: openmaptiles_v3_cache} # Cache Tiles Storage
     minzoom: 0 # Min zoom level to be cached
     maxzoom: 14 # Max zoom level to be cached
+    http_headers: # Type the contcontent fetch from the cache, with any HTTP headers
+      Content-Type: application/x-protobuf
+      # Content-Type: image/png
+      x-tilelive-contains-data: true
+      Content-Encoding: gzip
 ```
 
 See [Kartotherian](https://github.com/kartotherian/kartotherian)

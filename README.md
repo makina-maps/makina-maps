@@ -129,6 +129,13 @@ openmaptiles_v3:
   params:
     source: {ref: openmaptiles_v3_overzoom} # Tiles Source
     storage: {ref: openmaptiles_v3_cache} # Cache Tiles Storage
+    minzoom: 0 # Min zoom level to be cached
+    maxzoom: 14 # Max zoom level to be cached
+    http_headers: # Type the contcontent fetch from the cache, with any HTTP headers
+      Content-Type: application/x-protobuf
+      # Content-Type: image/png
+      x-tilelive-contains-data: true
+      Content-Encoding: gzip
 ```
 
 Mapbox GL native raster

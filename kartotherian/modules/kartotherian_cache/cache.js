@@ -42,11 +42,7 @@ Cache.prototype.getTile = function (z, x, y, callback) {
             }
 
             if (tile_cached) {
-                return callback(null, tile_cached, {
-                    "Content-Type": "application/x-protobuf",
-                    "x-tilelive-contains-data": true,
-                    "Content-Encoding": "gzip"
-                });
+                return callback(null, tile_cached, this.params.http_headers);
             } else {
                 return this.source.getTile(z, x, y, (err, tile, options) => {
                     if (tile) {
