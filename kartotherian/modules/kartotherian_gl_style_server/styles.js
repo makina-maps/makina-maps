@@ -18,9 +18,7 @@ function styleHandler(req, res, next) {
   const start = Date.now();
   const { params } = req;
 
-  return Promise.try(() =>
-    styleResolve(core, params.style)
-  ).then((data) => {
+  return Promise.try(() => styleResolve(core, params.style)).then((data) => {
     core.setResponseHeaders(res);
     res.type('json').send(data);
     core.metrics.endTiming('styles', start);
@@ -34,13 +32,14 @@ function spritesHandler(req, res, next) {
   return Promise.try(() => {
     const stylesPath = core.getConfiguration().styles.paths.styles;
     const styleDir = path.dirname(core.getConfiguration().styles.styles[params.style].style);
-    const filename = 'sprite' + (params.scale || '') + '.' + params.format;
+    const scale = params.scale || '';
+    const filename = `sprite${scale}.${params.format}`;
     const spriteFile = path.resolve(stylesPath, styleDir, filename);
 
     try {
       return fs.readFileSync(spriteFile);
     } catch (error) {
-      throw new Err('File not found' + spriteFile);
+      throw new Err(`File not found ${spriteFile}`);
     }
   }).then((data) => {
     core.setResponseHeaders(res);
@@ -54,23 +53,25 @@ function fontsHandler(req, res, next) {
   const { params } = req;
 
   return Promise.try(() => {
-    const fontFile = path.resolve(
+    let fontFile = path.resolve(
       core.getConfiguration().styles.paths.fonts,
       params.fontstack,
-      params.range + '.pbf');
+      `${params.range}.pbf`
+    );
 
     try {
       return fs.readFileSync(fontFile);
     } catch (error) {
       core.log('info', `Font ${params.fontstack} not found`);
       if (core.getConfiguration().styles.font_fallback) {
-        const fontFile = path.resolve(
+        fontFile = path.resolve(
           core.getConfiguration().styles.paths.fonts,
           core.getConfiguration().styles.font_fallback,
-          params.range + '.pbf');
+          `${params.range}.pbf`
+        );
         try {
           return fs.readFileSync(fontFile);
-        } catch (error) {
+        } catch (errorFallback) {
           throw new Err('Font not found, and Fallback Font not found').metrics('err.req.font_falback');
         }
       }
@@ -93,7 +94,7 @@ function fontsListHandler(req, res, next) {
       const stats = fs.lstatSync(path.resolve(fontsPath, file));
       // TODO check SymbolicLink is to directory
       if (stats.isDirectory() || stats.isSymbolicLink()) {
-        fonts.push(file + '.ttf');
+        fonts.push(`${file}.ttf`);
       }
     });
 
@@ -109,7 +110,7 @@ module.exports = (cor, router) => {
   core = cor;
 
   router.get('/styles/:style/style.json', styleHandler);
-  router.get('/styles/:style/sprite:scale(@[23]x)?\.:format([\\w]+)', spritesHandler);
+  router.get('/styles/:style/sprite:scale(@[23]x)?.:format([\\w]+)', spritesHandler);
 
   router.get('/fonts/:fontstack/:range([\\d]+-[\\d]+).pbf', fontsHandler);
   router.get('/fonts.json', fontsListHandler);
