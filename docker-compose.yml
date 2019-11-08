@@ -9,6 +9,7 @@ volumes:
 services:
   postgres:
     image: "openmaptiles/postgis:2.9"
+    container_name: openmaptiles_postgres_1
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -47,5 +48,5 @@ services:
       - OPENMAPTILES_V3_TILES_URL_INTERNAL=${BASE_URL:-http://kartotherian:6533}/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
 
 networks:
-  postgres_conn:
+  openmaptiles_conn:
     driver: bridge
