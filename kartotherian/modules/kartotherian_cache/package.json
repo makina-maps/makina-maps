@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "n-readlines": "^1.0.0",
     "redis": "^2.8.0",
     "@kartotherian/err": "^0.0.4",
     "@kartotherian/input-validator": "^0.0.6"

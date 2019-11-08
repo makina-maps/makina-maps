@@ -5,6 +5,15 @@ A cache tilelive module for Kartotherian. Adaptator over a Tile Storage Source.
 
 For now cache with Redis included.
 
+On Config, setup the request handler to remove updated tiles from cache
+```yaml
+services:
+  - name: kartotherian
+    conf:
+      requestHandlers:
+      - "kartotherian_cache/expire" # Cache expiration Endpoint
+```
+
 On Sources
 ```yaml
 openmaptiles_v3_cache: # Redis Tiles Storage

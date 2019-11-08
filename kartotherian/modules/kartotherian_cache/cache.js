@@ -65,6 +65,10 @@ Cache.prototype.getInfo = function (callback) {
     return this.source.getInfo(callback);
 };
 
+Cache.prototype.expireTile = function (z, x, y, callback) {
+    this.cache.putTile(z, x, y, null, callback);
+};
+
 Cache.initKartotherian = (cor) => {
     core = cor;
     core.tilelive.protocols['cache:'] = Cache;

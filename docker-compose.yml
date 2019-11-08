@@ -35,6 +35,7 @@ services:
       - ./kartotherian/config.yaml:/opt/kartotherian/packages/kartotherian/config.yaml
       - ./kartotherian/sources.yaml:/opt/kartotherian/packages/kartotherian/sources.yaml
       - ./openmaptiles/build/openmaptiles.tm2source:/data/openmaptiles.tm2source
+      - ./openmaptiles/data/expire_tiles:/data/expire_tiles
       - ./styles:/styles
       - ./fonts:/fonts
     links:

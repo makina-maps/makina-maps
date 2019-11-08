@@ -15,40 +15,62 @@ cd makina-maps
 git submodule update --init --recursive
 ```
 
-### OpenStreetMap load
+### OpenMapTiles Load
+
+From the `openmaptiles` directory.
+
+Fix OpenMapTiles (to allow usage of imposm config at import-osm step)
+```
+patch -p1 < ../docker-compose-openmaptiles.patch
+```
 
 Download OpenStreetMap extract:
 ```
-wget http://download.geofabrik.de/europe/andorra-latest.osm.pbf -P openmaptiles/data/
+wget http://download.geofabrik.de/europe/andorra-latest.osm.pbf -P data/
+```
+
+Setup the configuration for data updater:
+```
+echo '{"replication_url": "http://download.geofabrik.de/europe/andorra-updates/","replication_interval": "24h"}' > data/imposm-config.json
 ```
 
 Prepare OpenMapTiles configuration
 ```
-cd openmaptiles
+sed -i "s/DIFF_MODE=false/DIFF_MODE=true/" .env
 make
 ```
 
 Import generic data
 ```
-docker-compose up -d postgres && \
+docker-compose up -d postgres && sleep 10 && \
 docker-compose run --rm import-water && \
 docker-compose run --rm import-osmborder && \
 docker-compose run --rm import-natural-earth && \
 docker-compose run --rm import-lakelines
 ```
 
+Import OpenStreetMap data
+
+Force to clean previously imported OpenStreetMap data.
+```
+docker-compose up -d postgres
+docker-compose exec postgres psql openmaptiles openmaptiles -c "
+DROP SCHEMA backup CASCADE
+"
+```
+
 Time the import of a pbf from data directory
 ```
 docker-compose up -d postgres && sleep 10 && \
 time bash -c "\
-docker-compose run --rm import-osm && \
+docker-compose run -e CONFIG_JSON=/import/imposm-config.json --rm import-osm && \
 docker-compose run --rm import-wikidata && \
 docker-compose run --rm import-sql && \
 make psql-analyze
 "
 ```
 
-Then clear the tile cache (re-import data only).
+Then clear the tile cache (re-import data only). From project root directory:
 ```
 docker-compose exec redis redis-cli FLUSHALL
 ```
@@ -93,6 +115,7 @@ services:
 
       requestHandlers:
       - kartotherian_gl_style_server # Serve Mapbox GL Style
+      - "kartotherian_cache/expire" # Cache expiration Endpoint
 
       styles:
         prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
@@ -142,6 +165,34 @@ source_name:
   uri: kartotherian+gl:///
   params:
     style: basic # Style defined in to `config.yaml`
+```
+
+## Update
+
+### OpenMapTiles Update
+
+From the `openmaptiles` directory.
+
+Run the updater. It loops over pending updates, then wait for new update.
+```
+docker-compose run --rm -e CONFIG_JSON=/import/imposm-config.json -e TILES_DIR=/import/expire_tiles update-osm
+```
+Stop it when the data are up to date with CTRL-C.
+
+Update the precomputed data:
+```
+docker-compose run --rm import-sql && \
+make psql-analyze
+```
+
+### Tiles Cache Expiration
+
+```
+docker-compose exec kartotherian bash -c "
+  find /data/expire_tiles/ -name *.tiles | xargs cat > /data/expire_tiles/expire_tiles.tiles && \
+  curl http://localhost:6533/cache_expiration && \
+  rm -fr /data/expire_tiles/*
+"
 ```
 
 ## Benchmark

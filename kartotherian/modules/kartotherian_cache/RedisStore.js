@@ -24,6 +24,9 @@ RedisStore.prototype._redisClient = function (cacheClient) {
     set: (k, t, v, cb) => {
       cache.setex(k, t, v, cb);
     },
+    del: (k, cb) => {
+      cache.del(k, cb);
+    },
     error: (err) => {
       console.error(err); // eslint-disable-line no-console
     },
@@ -51,11 +54,19 @@ function RedisStore(uri, callback) {
 RedisStore.prototype.putTile = function (z, x, y, tile, callback) {
   return Promise.try(() => {
     const key = `${this.params.namespace}/${z}/${x}/${y}`;
-    this.redis.set(key, this.params.ttl, tile, (err, res) => {
-      if (err) {
-        throw err;
-      }
-    });
+    if (tile === null) {
+      this.redis.del(key, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+    } else {
+      this.redis.set(key, this.params.ttl, tile, (err, res) => {
+        if (err) {
+          throw err;
+        }
+      });
+    }
   });
 };
 
