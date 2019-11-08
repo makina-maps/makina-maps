@@ -150,14 +150,14 @@ source_name:
 
 Specific only on 8CPU (import-osm, import-sql and psql-analyze, without docker pulling time).
 
-| Area | PBF size | Postgres size | Import time |
-|-|-:|-:|-:|
-| Andorra | 243 Ko | 3.5 Go | 36 s |
-| Alsace | 100 Mo | 4.5 Go | 3 min 20 s |
-| Aquitaine | 214 Mo | 6.4 Go | 6 min 40 s |
-| Austria | 559 Mo | 9.4 Go | 23 min |
-| France | 3.5 Go | 35 Go | 105 min |
-| Europe | 20 Go | | | |
+| Area | PBF size | Postgres size | Time 8 CPUs / SSD | Time 4 CPUs / HD |
+|-|-:|-:|-:|-:|
+| Andorra | 243 Ko | 3.5 Go | 36 s | 1 min 21 s |
+| Alsace | 100 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s |
+| Aquitaine | 214 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s |
+| Austria | 559 Mo | 9.4 Go | 23 min | 26 min 35 s |
+| France | 3.5 Go | 35 Go | 105 min | |
+| Europe | 20 Go | | | | |
 
 ### Database
 
