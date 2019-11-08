@@ -1,27 +1,10 @@
 version: '2.1'
 
-volumes:
-  pgdata:
-    # Avoid droping the database on docker-compose down
-    external: true
-    name: openmaptiles_pgdata
-
 services:
-  postgres:
-    image: "openmaptiles/postgis:2.9"
-    container_name: openmaptiles_postgres_1
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - postgres_conn
-    ports:
-      - "5432"
-    env_file: openmaptiles/.env
-
   redis:
     image: redis:5-alpine
     networks:
-      - postgres_conn
+      - openmaptiles_conn
     ports:
       - "6379"
 
@@ -39,9 +22,9 @@ services:
       - ./styles:/styles
       - ./fonts:/fonts
     links:
-      - postgres
+      - redis
     networks:
-      - postgres_conn
+      - openmaptiles_conn
     ports:
       - "6533:6533"
     environment:
@@ -50,4 +33,5 @@ services:
 
 networks:
   openmaptiles_conn:
+    name: openmaptiles_postgres_conn
     driver: bridge

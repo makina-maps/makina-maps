@@ -77,9 +77,9 @@ docker-compose exec redis redis-cli FLUSHALL
 
 ### Run the tiles server
 
-From root directory.
+From root directory. Start the OpenMapTiles database and the web server.
 ```
-cd ..
+docker-compose -f openmaptiles/docker-compose.yml up -d postgres
 docker-compose up
 ```
 
