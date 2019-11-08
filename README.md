@@ -37,18 +37,9 @@ docker-compose run --rm import-natural-earth && \
 docker-compose run --rm import-lakelines
 ```
 
-Import OpenStreetMap data
-
-Force to clean previously imported OpenStreetMap data.
-```
-docker-compose up -d postgres
-docker-compose exec postgres psql openmaptiles openmaptiles -c "
-DROP SCHEMA backup CASCADE
-"
-```
-
 Time the import of a pbf from data directory
 ```
+docker-compose up -d postgres && sleep 10 && \
 time bash -c "\
 docker-compose run --rm import-osm && \
 docker-compose run --rm import-wikidata && \
@@ -57,10 +48,16 @@ make psql-analyze
 "
 ```
 
+Then clear the tile cache (re-import data only).
+```
+docker-compose exec redis redis-cli FLUSHALL
+```
+
 ### Run the tiles server
 
 From root directory.
 ```
+cd ..
 docker-compose up
 ```
 
