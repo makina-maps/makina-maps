@@ -4,7 +4,7 @@
   "description": "Tilelive GL for Kartotherian",
   "main": "kgl.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "repository": "makinacorpus/makina-maps",
   "keywords": [
@@ -24,5 +24,12 @@
     "kartotherian_gl_style_server": "file:../kartotherian_gl_style_server",
     "tilelive-gl": "git+https://git@github.com/trailbehind/tilelive-gl.git",
     "tmp": "^0.1.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-kartotherian": "^0.0.5",
+    "grunt": "^1.0.2",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^20.1.0"
   }
 }
