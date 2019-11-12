@@ -21,7 +21,7 @@ function styleHandler(req, res, next) {
   return Promise.try(() => styleResolve(core, params.style)).then((data) => {
     core.setResponseHeaders(res);
     res.type('json').send(data);
-    core.metrics.endTiming('styles', start);
+    core.metrics.endTiming('style', start);
   }).catch(err => core.reportRequestError(err, res)).catch(next);
 }
 
@@ -44,7 +44,7 @@ function spritesHandler(req, res, next) {
   }).then((data) => {
     core.setResponseHeaders(res);
     res.type(params.format).send(data);
-    core.metrics.endTiming('sprites', start);
+    core.metrics.endTiming('sprite', start);
   }).catch(err => core.reportRequestError(err, res)).catch(next);
 }
 
@@ -80,7 +80,7 @@ function fontsHandler(req, res, next) {
   }).then((data) => {
     core.setResponseHeaders(res);
     res.header('Content-type', 'application/x-protobuf').send(data);
-    core.metrics.endTiming('fonts', start);
+    core.metrics.endTiming('font', start);
   }).catch(err => core.reportRequestError(err, res)).catch(next);
 }
 
