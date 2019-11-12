@@ -18,6 +18,9 @@ git submodule update --init --recursive
 ### OpenMapTiles Load
 
 From the `openmaptiles` directory.
+```
+cd openmaptiles
+```
 
 Fix OpenMapTiles (to allow usage of imposm config at import-osm step)
 ```
@@ -207,7 +210,7 @@ Specific only on 8CPU (import-osm, import-sql and psql-analyze, without docker p
 | Alsace | 100 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s |
 | Aquitaine | 214 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s |
 | Austria | 559 Mo | 9.4 Go | 23 min | 26 min 35 s |
-| France | 3.5 Go | 35 Go | 105 min | |
+| France | 3.5 Go | 35 Go | 105 min | 210 min 58 s |
 | Europe | 20 Go | | | | |
 
 ### Database
