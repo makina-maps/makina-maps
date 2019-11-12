@@ -15,6 +15,19 @@ let config;
  * @param res response object
  * @param next will be called if request is not handled
  */
+function stylesListHandler(req, res, next) {
+  const start = Date.now();
+
+  return Promise.try(() => Object.keys(core.getConfiguration().styles.styles).map(style => ({
+    name: style,
+    url: `${config.prefix_public}/styles/${style}/style.json`,
+  }))).then((data) => {
+    core.setResponseHeaders(res);
+    res.type('json').send(data);
+    core.metrics.endTiming('stylesList', start);
+  }).catch(err => core.reportRequestError(err, res)).catch(next);
+}
+
 function styleHandler(req, res, next) {
   const start = Date.now();
   const { params } = req;
@@ -128,6 +141,8 @@ module.exports = (cor, router) => Promise.try(() => {
     throw new Err('"styles" configuration must specify a "styles" list');
   }
 }).then(() => {
+  router.get('/styles.json', stylesListHandler);
+
   router.get('/styles/:style/style.json', styleHandler);
   router.get('/styles/:style/sprite:scale(@[23]x)?.:format([\\w]+)', spritesHandler);
 
