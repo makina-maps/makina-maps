@@ -17,7 +17,7 @@ function KGL(uri, callback) {
     }
     this.params = params;
   }).then((handler) => {
-    const styleJson = JSON.stringify(styleResolve(core, this.params.style, local = true), null, 2);
+    const styleJson = JSON.stringify(styleResolve(core, core.getConfiguration().styles, this.params.style, local = true), null, 2);
 
     // Hack, write the content in a temp file as tilelive-gl can only read style from fs
     const tmpobj = tmp.fileSync({ postfix: '.json' });

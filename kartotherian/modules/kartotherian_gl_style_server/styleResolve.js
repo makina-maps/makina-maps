@@ -2,26 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const Err = require('@kartotherian/err');
 
-function styleResolve(core, style, local = false) {
-  const config = core.getConfiguration().styles;
-
-  if (!config) {
-    throw new Err('"styles" configuration block is not set up in the config');
-  }
-
-  if (!config.prefix_internal || !config.prefix_public) {
-    throw new Err('"styles" configuration must specify "prefix_internal" and "prefix_public"');
-  }
+function styleResolve(core, config, style, local = false) {
   const serverPrefix = local ? config.prefix_internal : config.prefix_public;
-
-  if (!config.paths || !config.paths.styles) {
-    throw new Err('"styles" configuration must specify "paths.styles"');
-  }
   const stylesPath = config.paths.styles;
 
-  if (!config.styles) {
-    throw new Err('"styles" configuration must specify a "styles" list');
-  }
   if (!config.styles[style]) {
     throw new Err(`"styles" configuration does not define style "${style}"`);
   }

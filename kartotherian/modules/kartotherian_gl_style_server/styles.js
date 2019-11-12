@@ -5,6 +5,7 @@ const Err = require('@kartotherian/err');
 const styleResolve = require('./styleResolve');
 
 let core;
+let config;
 
 // Code inpired by https://github.com/maptiler/tileserver-gl/tree/master/src
 
@@ -18,7 +19,7 @@ function styleHandler(req, res, next) {
   const start = Date.now();
   const { params } = req;
 
-  return Promise.try(() => styleResolve(core, params.style)).then((data) => {
+  return Promise.try(() => styleResolve(core, config, params.style)).then((data) => {
     core.setResponseHeaders(res);
     res.type('json').send(data);
     core.metrics.endTiming('style', start);
@@ -106,12 +107,30 @@ function fontsListHandler(req, res, next) {
   }).catch(err => core.reportRequestError(err, res)).catch(next);
 }
 
-module.exports = (cor, router) => {
+module.exports = (cor, router) => Promise.try(() => {
   core = cor;
 
+  config = core.getConfiguration().styles;
+
+  if (!config) {
+    throw new Err('"styles" configuration block is not set up in the config');
+  }
+
+  if (!config.prefix_internal || !config.prefix_public) {
+    throw new Err('"styles" configuration must specify "prefix_internal" and "prefix_public"');
+  }
+
+  if (!config.paths || !config.paths.styles) {
+    throw new Err('"styles" configuration must specify "paths.styles"');
+  }
+
+  if (!config.styles) {
+    throw new Err('"styles" configuration must specify a "styles" list');
+  }
+}).then(() => {
   router.get('/styles/:style/style.json', styleHandler);
   router.get('/styles/:style/sprite:scale(@[23]x)?.:format([\\w]+)', spritesHandler);
 
   router.get('/fonts/:fontstack/:range([\\d]+-[\\d]+).pbf', fontsHandler);
   router.get('/fonts.json', fontsListHandler);
-};
+});
