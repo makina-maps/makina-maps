@@ -97,3 +97,9 @@ services:
               v3: openmaptiles_v3
             sources_map_internal: # Internal, required for render raster
               v3: openmaptiles_v3_raster
+          bright: # Name of the style
+            style: osm-bright-gl-style/style-local.json # Relative path the style JSON
+            sources_map: # Map of the style source (`mbtiles://{v3}`) to source name from `sources.yaml`
+              v3: openmaptiles_v3
+            sources_map_internal: # Internal, required for render raster
+              v3: openmaptiles_v3_raster
