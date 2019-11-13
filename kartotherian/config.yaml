@@ -80,6 +80,7 @@ services:
 
       requestHandlers:
       - kartotherian_gl_style_server # Serve Mapbox GL Style
+      - kartotherian_sources_list_server # Serve the list of sources
       - "kartotherian_cache/expire" # Cache expiration Endpoint
 
       styles:

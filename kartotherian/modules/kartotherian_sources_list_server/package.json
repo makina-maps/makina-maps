@@ -1,0 +1,30 @@
+{
+  "name": "kartotherian_gl_style",
+  "version": "1.0.0",
+  "description": "Serves GL Styles",
+  "main": "sources.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": "makinacorpus/makina-maps",
+  "keywords": [
+    "kartotherian"
+  ],
+  "author": "Frédéric Rodrigo <fred.rodrigo@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": "https://github.com/makinacorpus/makina-maps/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/makinacorpus/makina-maps",
+  "dependencies": {
+    "bluebird": "^3.5.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-kartotherian": "^0.0.5",
+    "grunt": "^1.0.2",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^20.1.0"
+  }
+}

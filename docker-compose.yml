@@ -13,6 +13,7 @@ services:
       context: kartotherian
     volumes:
       - ./kartotherian/modules/kartotherian_gl_style_server:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl_style_server
+      - ./kartotherian/modules/kartotherian_sources_list_server:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_sources_list_server
       - ./kartotherian/modules/kartotherian_cache:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_cache
       - ./kartotherian/modules/kartotherian_gl:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl
       - ./kartotherian/config.yaml:/opt/kartotherian/packages/kartotherian/config.yaml
@@ -30,6 +31,7 @@ services:
     environment:
       - OPENMAPTILES_V3_TILES_URL=${BASE_URL:-http://localhost:6533}/openmaptiles_v3/{z}/{x}/{y}.pbf
       - OPENMAPTILES_V3_TILES_URL_INTERNAL=${BASE_URL:-http://kartotherian:6533}/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
+      - BASIC_TILES_URL=${BASE_URL:-http://localhost:6533}/basic/{z}/{x}/{y}.png
 
 networks:
   openmaptiles_conn:

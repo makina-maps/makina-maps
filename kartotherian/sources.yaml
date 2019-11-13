@@ -72,3 +72,5 @@ basic:
     http_headers:
       Content-Type: image/png
       x-tilelive-contains-data: true
+  overrideInfo:
+    tiles: [{env: BASIC_TILES_URL}]
