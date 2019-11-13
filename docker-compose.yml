@@ -22,6 +22,7 @@ services:
       - ./openmaptiles/data/expire_tiles:/data/expire_tiles
       - ./styles:/styles
       - ./fonts:/fonts
+      - ./kartotherian/static/public:/opt/kartotherian/packages/server/static
     links:
       - redis
     networks:
