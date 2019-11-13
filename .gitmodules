@@ -7,3 +7,7 @@
 [submodule "styles/klokantech-basic-gl-style"]
 	path = styles/klokantech-basic-gl-style
 	url = https://github.com/openmaptiles/klokantech-basic-gl-style.git
+[submodule "styles/osm-bright-gl-style"]
+	path = styles/osm-bright-gl-style
+	url = https://github.com/openmaptiles/osm-bright-gl-style.git
+	branch = gh-pages
