@@ -38,7 +38,7 @@ openmaptiles_v3:
   overrideInfo:
     Layer:
     _prefs:
-    tiles: [{env: OPENMAPTILES_V3_TILES_URL}]
+    tiles: {var: OPENMAPTILES_V3_TILES_URLS}
 
 # Raster
 
@@ -49,7 +49,7 @@ openmaptiles_v3_raster:
   params:
     source: {ref: openmaptiles_v3}
   overrideInfo:
-    tiles: [{env: OPENMAPTILES_V3_TILES_URL_INTERNAL}]
+    tiles: {var: OPENMAPTILES_V3_TILES_URLS_INTERNAL}
 
 basic_source:
   uri: kartotherian+gl:///
@@ -73,4 +73,4 @@ basic:
       Content-Type: image/png
       x-tilelive-contains-data: true
   overrideInfo:
-    tiles: [{env: BASIC_TILES_URL}]
+    tiles: {var: BASIC_TILES_URLS}

@@ -108,6 +108,18 @@ Specific configuration part.
 ```yaml
 services:
   - name: kartotherian
+      variables:
+        OPENMAPTILES_V3_TILES_URLS:
+        - http://localhost:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://127.0.0.1:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://[::1]:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
+        OPENMAPTILES_V3_TILES_URLS_INTERNAL:
+        - http://kartotherian:6533/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
+        BASIC_TILES_URLS:
+        - http://localhost:6533/basic/{z}/{x}/{y}.png
+        - http://127.0.0.1:6533/basic/{z}/{x}/{y}.png
+        - http://[::1]:6533/basic/{z}/{x}/{y}.png
+
       modules:
       - "tilelive-tmstyle"
       - "@kartotherian/overzoom"

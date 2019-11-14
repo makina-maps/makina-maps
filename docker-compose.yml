@@ -29,10 +29,6 @@ services:
       - openmaptiles_conn
     ports:
       - "6533:6533"
-    environment:
-      - OPENMAPTILES_V3_TILES_URL=${BASE_URL:-http://localhost:6533}/openmaptiles_v3/{z}/{x}/{y}.pbf
-      - OPENMAPTILES_V3_TILES_URL_INTERNAL=${BASE_URL:-http://kartotherian:6533}/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
-      - BASIC_TILES_URL=${BASE_URL:-http://localhost:6533}/basic/{z}/{x}/{y}.png
 
 networks:
   openmaptiles_conn:
