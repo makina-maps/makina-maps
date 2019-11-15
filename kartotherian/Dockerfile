@@ -14,7 +14,7 @@ RUN npm install -g npm@latest && \
     npm install -g npm-add-dependencies && \
     npm install -g lerna
 
-RUN git clone --single-branch --branch makina_maps https://github.com/frodrigo/kartotherian.git /opt/kartotherian
+RUN git clone --single-branch --branch makina_maps https://github.com/frodrigo/kartotherian.git /opt/kartotherian && echo 2019-11-12-1
 
 WORKDIR /opt/kartotherian/
 RUN lerna bootstrap --nohoist mapnik --nohoist libxmljs

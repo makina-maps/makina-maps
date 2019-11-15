@@ -84,7 +84,7 @@ docker-compose exec redis redis-cli FLUSHALL
 
 From root directory. Start the OpenMapTiles database and the web server.
 ```
-docker-compose -f openmaptiles/docker-compose.yml up -d postgres
+(cd openmaptiles && docker-compose up -d postgres) && sleep 10
 docker-compose up
 ```
 
@@ -219,18 +219,23 @@ docker-compose exec kartotherian bash -c "
 
 Specific only on 8CPU (import-osm, import-sql and psql-analyze, without docker pulling time).
 
-| Area | PBF size | Postgres size | Time 8 CPUs / SSD | Time 4 CPUs / HD |
+| Area | PBF size | Imposm cache | Postgres size | Time 8 CPUs / SSD | Time 4 CPUs / HD |
 |-|-:|-:|-:|-:|
-| Andorra | 243 Ko | 3.5 Go | 36 s | 1 min 21 s |
-| Alsace | 100 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s |
-| Aquitaine | 214 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s |
-| Austria | 559 Mo | 9.4 Go | 23 min | 26 min 35 s |
-| France | 3.5 Go | 35 Go | 105 min | 210 min 58 s |
-| Europe | 20 Go | | | | |
+| Andorra | 243 Ko | 3.3 Mo | 3.5 Go | 36 s | 1 min 21 s |
+| Alsace | 100 Mo | 156 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s |
+| Aquitaine | 214 Mo | 374 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s |
+| Austria | 559 Mo | 781 Mo| 9.4 Go  | 23 min | 26 min 35 s |
+| France | 3.5 Go | | 35 Go | 105 min | 210 min 58 s |
+| Europe | 20 Go | | | | | +3d 7h |
 
 ### Database
 
-Data size of the current data.
+Size of Imposm cache.
+```
+(cd openmaptiles && docker-compose run import-osm bash -c "du -h /cache/")
+```
+
+Size of the current database.
 ```
 docker-compose exec postgres psql openmaptiles openmaptiles -c "
 SELECT
@@ -244,7 +249,12 @@ WHERE
 "
 ```
 
-Show log query
+Show slow queries
 ```sql
 ALTER DATABASE openmaptiles SET log_min_duration_statement = 100;
+```
+
+And grep slowest queries
+```
+docker logs openmaptiles_postgres_1 |& grep 'LOG:  duration:' | cut -d ':' -f 3- | sed 's/BOX3D([^)]*)//g' | sort -n
 ```
