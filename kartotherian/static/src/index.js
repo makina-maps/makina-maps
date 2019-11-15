@@ -1,13 +1,26 @@
-import css from './style.css';
+import './style.css';
 import $ from 'jquery';
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 function main() {
     var map = new mapboxgl.Map({
         container: 'map',
         zoom: 3,
+        hash: true,
         center: [4.899, 52.372]
     });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    map.addControl(new mapboxgl.ScaleControl({
+        maxWidth: 80,
+        unit: 'metric'
+    }));
+
+    map.addControl(new mapboxgl.FullscreenControl({
+        container: document.querySelector('body')
+    }));
 
     $.getJSON('/styles.json', function (json) {
         var layerList = $('#styles');
