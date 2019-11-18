@@ -65,7 +65,7 @@ function main() {
                 "sources": {
                     "raster-tiles": {
                         "type": "raster",
-                        "url": `http://localhost:6533${layerId}`,
+                        "url": layerId,
                         "tileSize": 256
                     }
                 },
