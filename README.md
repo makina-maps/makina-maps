@@ -135,6 +135,9 @@ services:
       - kartotherian_sources_list_server # Serve the list of sources
       - "kartotherian_cache/expire" # Cache expiration Endpoint
 
+      sources_server:
+        prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
+
       styles:
         prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
         prefix_internal: http://kartotherian:6533 # Internal, required for render raster

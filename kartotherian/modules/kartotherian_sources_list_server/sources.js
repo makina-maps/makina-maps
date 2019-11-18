@@ -1,8 +1,7 @@
 const Promise = require('bluebird');
 
 let core;
-
-// Code inpired by https://github.com/maptiler/tileserver-gl/tree/master/src
+let config;
 
 /**
  * Web server (express) route handler to get styles, sprites and fronts
@@ -18,7 +17,7 @@ function sourceListHandler(req, res, next) {
     .filter(source => source.src.public && !source.src.isDisabled)
     .map(source => ({
       name: source.name,
-      url: `/${source.name}/info.json`,
+      url: `${config.prefix_public}/${source.name}/info.json`,
       formats: source.src.formats,
     }))
   ).then((data) => {
@@ -28,8 +27,18 @@ function sourceListHandler(req, res, next) {
   }).catch(err => core.reportRequestError(err, res)).catch(next);
 }
 
-module.exports = (cor, router) => {
+module.exports = (cor, router) => Promise.try(() => {
   core = cor;
 
+  config = core.getConfiguration().sources_server;
+
+  if (!config) {
+    throw new Err('"sources" configuration block is not set up in the config');
+  }
+
+  if (!config.prefix_public) {
+    throw new Err('"sources" configuration must specify "prefix_public"');
+  }
+}).then(() => {
   router.get('/sources.json', sourceListHandler);
-};
+});
