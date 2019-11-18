@@ -32,19 +32,23 @@ function Cache(uri, callback) {
 
 Cache.prototype.getTile = function (z, x, y, callback) {
   if (z < this.params.minzoom || z > this.params.maxzoom) {
+    core.metrics.increment('cache.out_fo_zoom');
     return this.source.getTile(z, x, y, callback);
   }
 
   return this.cache.getTile(z, x, y, (errCache, tileCache, optionsCache) => {
     if (errCache && errCache.message !== 'Tile does not exist') {
+      core.metrics.increment('cache.cache_error');
       return callback(errCache, null, optionsCache);
     }
 
     if (tileCache) {
+      core.metrics.increment('cache.found');
       return callback(null, tileCache, this.params.http_headers);
     }
 
     return this.source.getTile(z, x, y, (err, tile, options) => {
+      core.metrics.increment('cache.miss');
       if (tile) {
         Promise.try(() => {
           this.cache.putTile(z, x, y, tile, (errPut) => {
