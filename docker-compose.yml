@@ -1,6 +1,20 @@
 version: '2.1'
 
+volumes:
+  graphite_configs:
+  graphite_data:
+
 services:
+  # graphite:
+  #   image: graphiteapp/graphite-statsd
+  #   volumes:
+  #     - graphite_configs:/opt/graphite/conf
+  #     - graphite_data:/opt/graphite/storage
+  #   networks:
+  #     - openmaptiles_conn
+  #   ports:
+  #     - "8899:80"
+
   redis:
     image: redis:5-alpine
     networks:

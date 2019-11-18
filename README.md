@@ -261,3 +261,9 @@ And grep slowest queries
 ```
 docker logs openmaptiles_postgres_1 |& grep 'LOG:  duration:' | cut -d ':' -f 3- | sed 's/BOX3D([^)]*)//g' | sort -n
 ```
+
+### Metrics
+
+Server metrics could be available on StatsD / Graphite on http://localhost:8899
+
+The metrics logs are disabled by default and could be enabled in `docker-compose.yml` by uncommenting the `graphite` service and the `metrics` section from `config.yaml`.

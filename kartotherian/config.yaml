@@ -17,10 +17,10 @@ logging:
 #    port: 12201
 
 # Statsd metrics reporter
-metrics:
-  #type: info
-  #host: localhost
-  #port: 8125
+# metrics:
+#   type: info
+#   host: graphite
+#   port: 8125
 
 services:
   - name: kartotherian
