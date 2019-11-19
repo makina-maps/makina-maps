@@ -267,3 +267,10 @@ docker logs openmaptiles_postgres_1 |& grep 'LOG:  duration:' | cut -d ':' -f 3-
 Server metrics could be available on StatsD / Graphite on http://localhost:8899
 
 The metrics logs are disabled by default and could be enabled in `docker-compose.yml` by uncommenting the `graphite` service and the `metrics` section from `config.yaml`.
+
+Requests to push the server at saturation.
+
+| | 8 CPUs / SSD | 4 CPUs / HD |
+|-:|-|-|
+| tiles/s | ![](tiles_speed@8CPUs_SSD.png) | ![](tiles_speed@4CPUs_HD.png) |
+| delay | ![](tiles_delai@8CPUs_SSD.png) | ![](tiles_delai@4CPUs_HD.png) |
