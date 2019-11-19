@@ -223,7 +223,7 @@ docker-compose exec kartotherian bash -c "
 Specific only on 8CPU (import-osm, import-sql and psql-analyze, without docker pulling time).
 
 | Area | PBF size | Imposm cache | Postgres size | Time 8 CPUs / SSD | Time 4 CPUs / HD |
-|-|-:|-:|-:|-:|
+|-|-:|-:|-:|-:|-:|
 | Andorra | 243 Ko | 3.3 Mo | 3.5 Go | 36 s | 1 min 21 s |
 | Alsace | 100 Mo | 156 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s |
 | Aquitaine | 214 Mo | 374 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s |
