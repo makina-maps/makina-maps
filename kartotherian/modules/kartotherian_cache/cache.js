@@ -43,14 +43,15 @@ Cache.prototype.getTile = function (z, x, y, callback) {
     }
 
     if (tileCache) {
-      core.metrics.increment('cache.found');
+      core.metrics.increment('cache.hit');
       return callback(null, tileCache, this.params.http_headers);
     }
+    core.metrics.increment('cache.miss');
 
     return this.source.getTile(z, x, y, (err, tile, options) => {
-      core.metrics.increment('cache.miss');
       if (tile) {
         Promise.try(() => {
+          core.metrics.increment('cache.store');
           this.cache.putTile(z, x, y, tile, (errPut) => {
             if (errPut) {
               throw errPut;
