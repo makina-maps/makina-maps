@@ -1,7 +1,14 @@
 openmaptiles_v3:
   public: true
   formats: [pbf]
-  uri: tmsource:///data/openmaptiles.tm2source
+  uri: pgquery://
+  params:
+    funcZXY: gettile
+    database: openmaptiles
+    host: postgres
+    username: openmaptiles
+    password: openmaptiles
+    maxpool: 16
   overrideInfo:
     attribution: 'Map data © <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     Layer:

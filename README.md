@@ -80,6 +80,12 @@ Import the OpenStreetMap extract from data directory:
 
 The scripts `20-import-prepare.sh` or `30-import-extract.sh` can be replayed with the same or other area.
 
+Setup MVT generation using PostGis
+```
+docker-compose run --rm openmaptiles-tools generate-sqltomvt -v 2.5 /tileset/openmaptiles.yaml > build/gettile.sql
+docker-compose exec -T postgres psql openmaptiles openmaptiles < gettile.sql
+```
+
 ### Update OpenMapTiles data
 
 From the `openmaptiles` directory.

@@ -79,8 +79,7 @@ services:
       sources: sources.yaml
 
       modules:
-      - "tilelive-tmstyle"
-      - "@kartotherian/tilelive-tmsource"
+      - tilelive-pgquery
       - "@mapbox/tilejson"
       - kartotherian_gl # Render raster tiles
 
