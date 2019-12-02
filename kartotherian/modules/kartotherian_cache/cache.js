@@ -48,8 +48,10 @@ Cache.prototype.getTile = function (z, x, y, callback) {
     }
     core.metrics.increment('cache.miss');
 
+    const start = Date.now();
     return this.source.getTile(z, x, y, (err, tile, options) => {
       if (tile) {
+        core.metrics.endTiming(`cache.fetch.${z}`, start);
         Promise.try(() => {
           core.metrics.increment('cache.store');
           this.cache.putTile(z, x, y, tile, (errPut) => {
