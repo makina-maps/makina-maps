@@ -224,14 +224,14 @@ docker-compose exec kartotherian bash -c "
 
 Specific only on 8 CPUs (import-osm, import-sql and psql-analyze, without docker pulling time).
 
-| Area | PBF size | Imposm cache | Postgres size | Time 8 CPUs / SSD | Time 4 CPUs / HD |
-|-|-:|-:|-:|-:|-:|
-| Andorra | 243 Ko | 3.3 Mo | 3.5 Go | 36 s | 1 min 21 s |
-| Alsace | 100 Mo | 156 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s |
-| Aquitaine | 214 Mo | 374 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s |
-| Austria | 559 Mo | 781 Mo| 9.4 Go  | 23 min | 26 min 35 s |
-| France | 3.5 Go | | 35 Go | 105 min | 210 min 58 s |
-| Europe | 20 Go | 35 Go | 206 Go | 12 h 22 min | 3 d 23 h |
+| Area | PBF size | Imposm cache | Postgres size | Time 8 CPUs / SSD | Time 4 CPUs / HD | 1 d Update |
+|-|-:|-:|-:|-:|-:|-:|
+| Andorra | 243 Ko | 3.3 Mo | 3.5 Go | 36 s | 1 min 21 s | |
+| Alsace | 100 Mo | 156 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s | |
+| Aquitaine | 214 Mo | 374 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s | 1 min |
+| Austria | 559 Mo | 781 Mo| 9.4 Go  | 23 min | 26 min 35 s | |
+| France | 3.5 Go | | 35 Go | 105 min | 210 min 58 s | |
+| Europe | 20 Go | 35 Go | 206 Go | 12 h 22 min | 3 d 23 h | 3 h |
 
 ### Database
 
