@@ -124,8 +124,6 @@ services:
 
       modules:
       - "tilelive-tmstyle"
-      - "@kartotherian/overzoom"
-      - "@kartotherian/substantial"
       - "@kartotherian/tilelive-tmsource"
       - "@mapbox/tilejson"
       - kartotherian_cache # Local cache
