@@ -200,12 +200,6 @@ docker-compose run --rm -e CONFIG_JSON=/import/imposm-config.json -e TILES_DIR=/
 ```
 Stop it when the data are up to date with CTRL-C.
 
-Update the precomputed data:
-```
-docker-compose run --rm import-sql && \
-make psql-analyze
-```
-
 ### Tiles Cache Expiration
 
 ```
@@ -268,9 +262,35 @@ Server metrics could be available on StatsD / Graphite on http://localhost:8899
 
 The metrics logs are disabled by default and could be enabled in `docker-compose.yml` by uncommenting the `graphite` service and the `metrics` section from `config.yaml`.
 
-Requests to push the server at saturation.
 
-| | 8 CPUs / SSD | 4 CPUs / HD |
-|-:|-|-|
-| tiles/s | ![](tiles_speed@8CPUs_SSD.png) | ![](tiles_speed@4CPUs_HD.png) |
-| delay | ![](tiles_delai@8CPUs_SSD.png) | ![](tiles_delai@4CPUs_HD.png) |
+### Queries
+
+Use [Artillery.io](https://artillery.io) to benchmark the tiles server. Uncomment the service in the `docker-compose.yml`.
+
+Generate one set of tiles coordinates to be requested. Coordinates are tile ranges at zoom level 14 (https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/)
+```
+# Central Europe
+docker-compose run --rm artillery bash -c 'ruby artillery.rb 8445-9451 5356-5891 | egrep "^14," > artillery.csv'
+# Aquitaine
+docker-compose run --rm artillery bash -c 'ruby artillery.rb 8000-8200 5800-6000 | egrep "^14," > artillery.csv'
+# Bordeaux area
+docker-compose run --rm artillery bash -c 'ruby artillery.rb 8157-8171 5895-5909 | egrep "^14," > artillery.csv'
+# Paris area
+docker-compose run --rm artillery bash -c 'ruby artillery.rb 8285-8311 5621-5645 | egrep "^14," > artillery.csv'
+```
+
+Clear the tiles cache first. Then request the tiles server.
+```
+docker-compose exec redis redis-cli FLUSHALL
+docker-compose run --rm artillery artillery run artillery.yaml
+```
+
+Random order tiles request on mixed urban and rural area, without concurrency. Time on server side.
+
+| Source | Delay |
+|-|-:|
+| Zoom 12 | |
+| Zoom 13 | |
+| Zoom 14, mixte | 80 ms |
+| Zoom 14, urban | |
+| From cache | 5 ms |

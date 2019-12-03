@@ -15,6 +15,14 @@ services:
   #   ports:
   #     - "8899:80"
 
+  # artillery:
+  #   build:
+  #     context: artillery
+  #   volumes:
+  #     - ./artillery:/artillery
+  #   networks:
+  #     - openmaptiles_conn
+
   redis:
     image: redis:5-alpine
     networks:

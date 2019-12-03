@@ -1,0 +1,20 @@
+[
+  {
+    "target": [
+      "minSeries(*.timers.root.req.openmaptiles_v3.*.pbf.lower)",
+      "maxSeries(*.timers.root.req.openmaptiles_v3.*.pbf.upper)",
+      "*.timers.root.req.openmaptiles_v3.*.pbf.median"
+    ],
+    "fgcolor": "000000",
+    "bgcolor": "FFFFFF",
+    "title": "Lower/Medians/Upper (ms)"
+  },
+  {
+    "target": [
+      "stats.root.cache.*"
+    ],
+    "fgcolor": "000000",
+    "bgcolor": "FFFFFF",
+    "title": "Cache hits"
+  }
+]

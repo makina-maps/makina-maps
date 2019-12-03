@@ -1,0 +1,21 @@
+config:
+  target: "http://kartotherian:6533"
+  phases:
+    - duration: 600
+      arrivalRate: 5
+  payload:
+    path: "artillery.csv"
+    fields:
+      - "z"
+      - "x"
+      - "y"
+    # order: "sequence"
+scenarios:
+  - name: "get"
+    flow:
+      - get:
+          url: /openmaptiles_v3/{{z}}/{{x}}/{{y}}.pbf
+
+# plugins:
+#   publish-metrics:
+#     - type: statsd
