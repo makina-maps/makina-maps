@@ -43,26 +43,26 @@ openmaptiles_v3_raster:
     _prefs:
     tiles: {var: OPENMAPTILES_V3_TILES_URLS_INTERNAL} # Duplicate cache config to change this URL
 
-basic_source:
+bright_source:
   uri: kartotherian+gl:///
   params:
-    style: basic
+    style: bright
 
-basic_cache:
+bright_cache:
   uri: redis://
   params:
     host: redis
-    namespace: basic_cache
+    namespace: bright_cache
 
-basic:
+bright:
   public: true
   formats: [png, jpeg, webp]
   uri: cache://
   params:
-    source: {ref: basic_source}
-    storage: {ref: basic_cache}
+    source: {ref: bright_source}
+    storage: {ref: bright_cache}
     http_headers:
       Content-Type: image/png
       x-tilelive-contains-data: true
   overrideInfo:
-    tiles: {var: BASIC_TILES_URLS}
+    tiles: {var: BRIGHT_TILES_URLS}

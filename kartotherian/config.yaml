@@ -72,10 +72,10 @@ services:
         - http://[::1]:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
         OPENMAPTILES_V3_TILES_URLS_INTERNAL:
         - http://kartotherian:6533/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
-        BASIC_TILES_URLS:
-        - http://localhost:6533/basic/{z}/{x}/{y}.png
-        - http://127.0.0.1:6533/basic/{z}/{x}/{y}.png
-        - http://[::1]:6533/basic/{z}/{x}/{y}.png
+        BRIGHT_TILES_URLS:
+        - http://localhost:6533/bright/{z}/{x}/{y}.png
+        - http://127.0.0.1:6533/bright/{z}/{x}/{y}.png
+        - http://[::1]:6533/bright/{z}/{x}/{y}.png
       sources: sources.yaml
 
       modules:
@@ -102,14 +102,14 @@ services:
           fonts: /fonts # Path to fonts, in the Docker container
         font_fallback: Klokantech Noto Sans Regular # Serve this font when the font is not found
         styles:
-          basic: # Name of the style
-            style: klokantech-basic-gl-style/style-local.json # Relative path the style JSON
+          bright: # Name of the style
+            style: osm-bright-gl-style/style-local.json # Relative path the style JSON
             sources_map: # Map of the style source (`mbtiles://{v3}`) to source name from `sources.yaml`
               v3: openmaptiles_v3
             sources_map_internal: # Internal, required for render raster
               v3: openmaptiles_v3_raster
-          bright: # Name of the style
-            style: osm-bright-gl-style/style-local.json # Relative path the style JSON
+          basic: # Name of the style
+            style: klokantech-basic-gl-style/style-local.json # Relative path the style JSON
             sources_map: # Map of the style source (`mbtiles://{v3}`) to source name from `sources.yaml`
               v3: openmaptiles_v3
             sources_map_internal: # Internal, required for render raster
