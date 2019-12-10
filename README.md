@@ -269,7 +269,7 @@ Use [Artillery.io](https://artillery.io) to benchmark the tiles server. Uncommen
 
 Generate one set of tiles coordinates to be requested. Coordinates are tile ranges at zoom level 14 (https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/)
 ```
-# Central Europe
+# Continantal Europe
 docker-compose run --rm artillery bash -c 'ruby artillery.rb 8445-9451 5356-5891 | egrep "^14," > artillery.csv'
 # Aquitaine
 docker-compose run --rm artillery bash -c 'ruby artillery.rb 8000-8200 5800-6000 | egrep "^14," > artillery.csv'
@@ -285,12 +285,12 @@ docker-compose exec redis redis-cli FLUSHALL
 docker-compose run --rm artillery artillery run artillery.yaml
 ```
 
-Random order tiles request on mixed urban and rural area, without concurrency. Time on server side.
+Random order tiles request on mixed urban and rural area, without concurrency. Time from server, HTTP included.
 
 | Source | Delay |
 |-|-:|
-| Zoom 12 | |
-| Zoom 13 | |
-| Zoom 14, mixte | 80 ms |
-| Zoom 14, urban | |
+| Zoom 12 mixte Europe | 50 ms |
+| Zoom 13, mixte Europe | 49 ms |
+| Zoom 14, mixte Europe| 60 ms |
+| Zoom 14, urban Paris | 270 ms |
 | From cache | 5 ms |
