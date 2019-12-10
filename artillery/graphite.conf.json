@@ -16,5 +16,12 @@
     "fgcolor": "000000",
     "bgcolor": "FFFFFF",
     "title": "Cache hits"
+  },
+  {
+    "target": [
+      "*.timers.root.cache.fetch.*.mean"
+    ],
+    "fgcolor": "000000",
+    "bgcolor": "FFFFFF"
   }
 ]
