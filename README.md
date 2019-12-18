@@ -204,7 +204,7 @@ Stop it when the data are up to date with CTRL-C.
 
 ```
 docker-compose exec kartotherian bash -c "
-  find /data/expire_tiles/ -name *.tiles | xargs cat > /data/expire_tiles/expire_tiles.tiles && \
+  find /data/expire_tiles/???????? -name *.tiles | xargs cat > /data/expire_tiles/expire_tiles.tiles && \
   curl http://localhost:6533/cache_expiration && \
   rm -fr /data/expire_tiles/*
 "
