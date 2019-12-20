@@ -23,34 +23,38 @@ services:
   #   networks:
   #     - openmaptiles_conn
 
-  redis:
-    image: redis:5-alpine
-    networks:
-      - openmaptiles_conn
-    ports:
-      - "6379"
-
   kartotherian:
     build:
       context: kartotherian
     volumes:
       - ./kartotherian/modules/kartotherian_gl_style_server:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl_style_server
       - ./kartotherian/modules/kartotherian_sources_list_server:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_sources_list_server
-      - ./kartotherian/modules/kartotherian_cache:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_cache
       - ./kartotherian/modules/kartotherian_gl:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl
       - ./kartotherian/config.yaml:/opt/kartotherian/packages/kartotherian/config.yaml
       - ./kartotherian/sources.yaml:/opt/kartotherian/packages/kartotherian/sources.yaml
       - ./openmaptiles/build/openmaptiles.tm2source:/data/openmaptiles.tm2source
-      - ./openmaptiles/data/expire_tiles:/data/expire_tiles
       - ./styles:/styles
       - ./fonts:/fonts
       - ./kartotherian/static/public:/opt/kartotherian/packages/server/static
-    links:
-      - redis
     networks:
       - openmaptiles_conn
     ports:
       - "6533:6533"
+
+  nginx:
+    build:
+      context: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./cache:/cache
+      - ./nginx/expire.sh:/opt/expire.sh
+      - ./openmaptiles/data/expire_tiles:/data/expire_tiles
+    depends_on:
+      - kartotherian
+    networks:
+      - openmaptiles_conn
+    ports:
+      - "8080:80"
 
 networks:
   openmaptiles_conn:

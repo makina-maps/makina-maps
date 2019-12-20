@@ -1,26 +1,9 @@
-openmaptiles_v3_source:
-  uri: tmsource:///data/openmaptiles.tm2source
-  overrideInfo:
-    attribution: 'Map data © <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-
-openmaptiles_v3_cache:
-  uri: redis://
-  params:
-    host: redis
-    namespace: openmaptiles_v3_cache
-
 openmaptiles_v3:
   public: true
   formats: [pbf]
-  uri: cache://
-  params:
-    source: {ref: openmaptiles_v3_source}
-    storage: {ref: openmaptiles_v3_cache}
-    http_headers:
-      Content-Type: application/x-protobuf
-      x-tilelive-contains-data: true
-      Content-Encoding: gzip
+  uri: tmsource:///data/openmaptiles.tm2source
   overrideInfo:
+    attribution: 'Map data © <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     Layer:
     _prefs:
     tiles: {var: OPENMAPTILES_V3_TILES_URLS}
@@ -30,39 +13,18 @@ openmaptiles_v3:
 openmaptiles_v3_raster:
   public: true
   formats: [pbf]
-  uri: cache://
-  params:
-    source: {ref: openmaptiles_v3_source}
-    storage: {ref: openmaptiles_v3_cache}
-    http_headers:
-      Content-Type: application/x-protobuf
-      x-tilelive-contains-data: true
-      Content-Encoding: gzip
+  uri: tmsource:///data/openmaptiles.tm2source
   overrideInfo:
+    attribution: 'Map data © <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     Layer:
     _prefs:
-    tiles: {var: OPENMAPTILES_V3_TILES_URLS_INTERNAL} # Duplicate cache config to change this URL
-
-bright_source:
-  uri: kartotherian+gl:///
-  params:
-    style: bright
-
-bright_cache:
-  uri: redis://
-  params:
-    host: redis
-    namespace: bright_cache
+    tiles: {var: OPENMAPTILES_V3_TILES_URLS_INTERNAL} # Duplicate source config to change this URL
 
 bright:
   public: true
   formats: [png, jpeg, webp]
-  uri: cache://
+  uri: kartotherian+gl:///
   params:
-    source: {ref: bright_source}
-    storage: {ref: bright_cache}
-    http_headers:
-      Content-Type: image/png
-      x-tilelive-contains-data: true
+    style: bright
   overrideInfo:
     tiles: {var: BRIGHT_TILES_URLS}

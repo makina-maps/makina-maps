@@ -22,7 +22,6 @@ RUN lerna bootstrap --nohoist mapnik --nohoist libxmljs
 COPY modules /opt/modules
 RUN lerna add "kartotherian_gl_style_server@/opt/modules/kartotherian_gl_style_server"
 RUN lerna add "kartotherian_sources_list_server@/opt/modules/kartotherian_sources_list_server"
-RUN lerna add "kartotherian_cache@/opt/modules/kartotherian_cache"
 RUN lerna add "kartotherian_gl@/opt/modules/kartotherian_gl"
 
 WORKDIR /opt/kartotherian/packages/kartotherian

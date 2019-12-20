@@ -79,7 +79,7 @@ make psql-analyze
 
 Then clear the tile cache (re-import data only). From project root directory:
 ```
-docker-compose exec redis redis-cli FLUSHALL
+docker-compose run --rm nginx rm -fr /cache/*
 ```
 
 ### Run the tiles server
@@ -112,34 +112,31 @@ services:
   - name: kartotherian
       variables:
         OPENMAPTILES_V3_TILES_URLS:
-        - http://localhost:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
-        - http://127.0.0.1:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
-        - http://[::1]:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://localhost:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://127.0.0.1:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://[::1]:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
         OPENMAPTILES_V3_TILES_URLS_INTERNAL:
-        - http://kartotherian:6533/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
-        BASIC_TILES_URLS:
-        - http://localhost:6533/basic/{z}/{x}/{y}.png
-        - http://127.0.0.1:6533/basic/{z}/{x}/{y}.png
-        - http://[::1]:6533/basic/{z}/{x}/{y}.png
+        - http://nginx:80/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
+        BRIGHT_TILES_URLS:
+        - http://localhost:8080/bright/{z}/{x}/{y}.png
+        - http://127.0.0.1:8080/bright/{z}/{x}/{y}.png
+        - http://[::1]:8080/bright/{z}/{x}/{y}.png
 
       modules:
       - "tilelive-tmstyle"
       - "@kartotherian/tilelive-tmsource"
       - "@mapbox/tilejson"
-      - kartotherian_cache # Local cache
-      - "kartotherian_cache/RedisStore" # Redis cache Storage
       - kartotherian_gl # Render raster tiles
 
       requestHandlers:
       - kartotherian_gl_style_server # Serve Mapbox GL Style
       - kartotherian_sources_list_server # Serve the list of sources
-      - "kartotherian_cache/expire" # Cache expiration Endpoint
 
       sources_server:
-        prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
+        prefix_public: http://localhost:8080 # External hostname, should be changed to https://example.com
 
       styles:
-        prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
+        prefix_public: http://localhost:8080 # External hostname, should be changed to https://example.com
         prefix_internal: http://kartotherian:6533 # Internal, required for render raster
         paths:
           styles: /styles # Path to styles, in the Docker container
@@ -156,36 +153,18 @@ services:
 
 #### styles.yaml
 
-Cache setup
-
-```yaml
-openmaptiles_v3_cache: # Redis Tiles Storage
-  uri: redis://
-  params:
-    host: redis
-    namespace: openmaptiles_v3_cache
-
-openmaptiles_v3:
-  uri: cache://
-  params:
-    source: {ref: openmaptiles_v3_overzoom} # Tiles Source
-    storage: {ref: openmaptiles_v3_cache} # Cache Tiles Storage
-    minzoom: 0 # Min zoom level to be cached
-    maxzoom: 14 # Max zoom level to be cached
-    http_headers: # Type the contcontent fetch from the cache, with any HTTP headers
-      Content-Type: application/x-protobuf
-      # Content-Type: image/png
-      x-tilelive-contains-data: true
-      Content-Encoding: gzip
-```
-
 Mapbox GL native raster
 
 ```yaml
-source_name:
+source_name: # Unique source identifier
+  public: true
+  formats: [png, jpeg, webp]
   uri: kartotherian+gl:///
   params:
-    style: basic # Style defined in to `config.yaml`
+    style: bright # Style defined in to `config.yaml`
+  overrideInfo:
+    tiles: {var: BRIGHT_TILES_URLS} # From `config.yaml`
+
 ```
 
 ## Update
@@ -203,11 +182,7 @@ Stop it when the data are up to date with CTRL-C.
 ### Tiles Cache Expiration
 
 ```
-docker-compose exec kartotherian bash -c "
-  find /data/expire_tiles/???????? -name *.tiles | xargs cat > /data/expire_tiles/expire_tiles.tiles && \
-  curl http://localhost:6533/cache_expiration && \
-  rm -fr /data/expire_tiles/*
-"
+docker-compose exec nginx bash /opt/expire.sh
 ```
 
 ## Benchmark
@@ -281,7 +256,7 @@ docker-compose run --rm artillery bash -c 'ruby artillery.rb 8285-8311 5621-5645
 
 Clear the tiles cache first. Then request the tiles server.
 ```
-docker-compose exec redis redis-cli FLUSHALL
+docker-compose run --rm nginx rm -fr /cache/*
 docker-compose run --rm artillery artillery run artillery.yaml
 ```
 

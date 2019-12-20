@@ -67,35 +67,32 @@ services:
       # Kartotherian variables and sources
       variables:
         OPENMAPTILES_V3_TILES_URLS:
-        - http://localhost:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
-        - http://127.0.0.1:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
-        - http://[::1]:6533/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://localhost:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://127.0.0.1:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
+        - http://[::1]:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
         OPENMAPTILES_V3_TILES_URLS_INTERNAL:
-        - http://kartotherian:6533/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
+        - http://nginx:80/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
         BRIGHT_TILES_URLS:
-        - http://localhost:6533/bright/{z}/{x}/{y}.png
-        - http://127.0.0.1:6533/bright/{z}/{x}/{y}.png
-        - http://[::1]:6533/bright/{z}/{x}/{y}.png
+        - http://localhost:8080/bright/{z}/{x}/{y}.png
+        - http://127.0.0.1:8080/bright/{z}/{x}/{y}.png
+        - http://[::1]:8080/bright/{z}/{x}/{y}.png
       sources: sources.yaml
 
       modules:
       - "tilelive-tmstyle"
       - "@kartotherian/tilelive-tmsource"
       - "@mapbox/tilejson"
-      - kartotherian_cache # Local cache
-      - "kartotherian_cache/RedisStore" # Redis cache Storage
       - kartotherian_gl # Render raster tiles
 
       requestHandlers:
       - kartotherian_gl_style_server # Serve Mapbox GL Style
       - kartotherian_sources_list_server # Serve the list of sources
-      - "kartotherian_cache/expire" # Cache expiration Endpoint
 
       sources_server:
-        prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
+        prefix_public: http://localhost:8080 # External hostname, should be changed to https://example.com
 
       styles:
-        prefix_public: http://localhost:6533 # External hostname, should be changed to https://example.com
+        prefix_public: http://localhost:8080 # External hostname, should be changed to https://example.com
         prefix_internal: http://kartotherian:6533 # Internal, required for render raster
         paths:
           styles: /styles # Path to styles, in the Docker container
