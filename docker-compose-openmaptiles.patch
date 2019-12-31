@@ -1,35 +1,22 @@
 diff --git a/docker-compose.yml b/docker-compose.yml
-index 478d5c0..b5fb691 100644
+index e13d882..40fdc5e 100644
 --- a/docker-compose.yml
 +++ b/docker-compose.yml
-@@ -28,10 +28,11 @@ services:
-     networks:
-     - postgres_conn
-   import-osm:
--    image: "openmaptiles/import-osm:0.5"
-+    image: "sophox/import-osm:1.1"
-     env_file: .env
-     environment:
-       DIFF_MODE: ${DIFF_MODE}
-+    command: bash -c 'sed -i "s!-deployproduction \\\\!-deployproduction -config /import/imposm-config.json \\\\!" ./import_osm.sh && ./import_osm.sh'
-     networks:
-     - postgres_conn
+@@ -4,7 +4,7 @@ volumes:
+   cache:
+ services:
+   postgres:
+-    image: "openmaptiles/postgis:${TOOLS_VERSION}"
++    image: "sophox/postgis"
      volumes:
-@@ -44,7 +45,7 @@ services:
+       - pgdata:/var/lib/postgresql/data
      networks:
-     - postgres_conn
-   import-osm-diff:
--    image: "openmaptiles/import-osm:0.5"
-+    image: "sophox/import-osm:1.1"
-     env_file: .env
-     command: ./import_diff.sh
-     environment:
-@@ -56,7 +57,7 @@ services:
-      - ./build:/mapping
-      - cache:/cache
-   update-osm:
--    image: "openmaptiles/import-osm:0.5"
-+    image: "sophox/import-osm:1.1"
+@@ -28,7 +28,7 @@ services:
+     networks:
+       - postgres_conn
+   import-osm:
+-    image: "openmaptiles/import-osm:${TOOLS_VERSION}"
++    image: "openmaptiles/import-osm:${TOOLS_VERSION}-fred"
      env_file: .env
      environment:
        DIFF_MODE: ${DIFF_MODE}
