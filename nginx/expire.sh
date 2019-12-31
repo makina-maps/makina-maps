@@ -7,14 +7,17 @@ set -e
 
 SOURCES=`curl http://127.0.0.1/sources.json | jq -r .[].name`
 
-find /data/expire_tiles/???????? -name *.tiles | \
-while read tiles; do
-    cat $tiles | while read tile; do
-        >&2 echo ${tile}
+{
+# Expire pending tiles
+find /data/expire_tiles/???????? -name *.tiles & \
+# Watch to expire new tiles
+inotifywait --monitor --recursive --event moved_to --format '%w%f' /data/expire_tiles/
+} | while read tiles; do
+    cat "${tiles}" | while read tile; do
+        >&2 echo "${tile}"
         echo "${SOURCES}" | while read source; do
             echo "--output /dev/null http://127.0.0.1/${source}/${tile}*"
         done
-    done
-done | xargs -n 66 curl -X EXPIRE --silent
-
-rm -fr /data/expire_tiles/*
+    done | xargs -n 66 curl -X EXPIRE --silent
+    rm "${tiles}"
+done

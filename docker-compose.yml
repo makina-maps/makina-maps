@@ -47,10 +47,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./cache:/cache
-      - ./nginx/expire.sh:/opt/expire.sh
       - ./openmaptiles/data/expire_tiles:/data/expire_tiles
-    depends_on:
-      - kartotherian
     networks:
       - openmaptiles_conn
     ports:
