@@ -11,7 +11,7 @@ Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/open
 
 ## Install
 
-Install as système dependencies: git, make, docker and docker-compose.
+Install as system dependencies: git, make, docker and docker-compose.
 
 ```
 git clone https://github.com/makinacorpus/makina-maps.git
@@ -19,11 +19,13 @@ cd makina-maps
 git submodule update --init --recursive
 ```
 
-### OpenMapTiles Load
+### Prepare OpenMaptiles
 
-From the `openmaptiles` directory.
+Prepare OpenMapTiles configuration:
 ```
 cd openmaptiles
+sed -i "s/DIFF_MODE=false/DIFF_MODE=true/" .env
+make
 ```
 
 Fix OpenMapTiles (to allow usage of imposm config at import-osm step)
@@ -31,58 +33,44 @@ Fix OpenMapTiles (to allow usage of imposm config at import-osm step)
 patch -p1 < ../docker-compose-openmaptiles.patch
 ```
 
-Download OpenStreetMap extract:
+### OpenMapTiles initial Load
+
+Use the management scripts from `openmaptiles` directory.
 ```
-wget http://download.geofabrik.de/europe/andorra-latest.osm.pbf -P data/
+cd openmaptiles
 ```
 
-Setup the configuration for data updater:
+Import generic data, not from OpenStreetMap:
 ```
-echo '{"replication_url": "http://download.geofabrik.de/europe/andorra-updates/","replication_interval": "24h"}' > data/imposm-config.json
-```
-
-Prepare OpenMapTiles configuration
-```
-sed -i "s/DIFF_MODE=false/DIFF_MODE=true/" .env
-make
+../scripts/10-import-generic.sh
 ```
 
-Import generic data
+Prepare import by download OpenStreetMap data and setup configuration for an area:
 ```
-docker-compose up -d postgres && sleep 10 && \
-docker-compose run --rm import-water && \
-docker-compose run --rm import-osmborder && \
-docker-compose run --rm import-natural-earth && \
-docker-compose run --rm import-lakelines
+../scripts/20-import-prepare.sh europe/andorra
 ```
 
-Import OpenStreetMap data
-
-Force to clean previously imported OpenStreetMap data.
+Import the OpenStreetMap extract from data directory:
 ```
-docker-compose up -d postgres
-docker-compose exec postgres psql openmaptiles openmaptiles -c "
-DROP SCHEMA backup CASCADE
-"
+../scripts/30-import-extract.sh
 ```
 
-Time the import of a pbf from data directory
-```
-docker-compose up -d postgres && sleep 10 && \
-time bash -c "\
-docker-compose run -e CONFIG_JSON=/import/imposm-config.json --rm import-osm && \
-docker-compose run --rm import-wikidata && \
-docker-compose run --rm import-sql && \
-make psql-analyze
-"
-```
+The scripts `20-import-prepare.sh` or `30-import-extract.sh` can be replayed with the same or other area.
 
-Then clear the tile cache (re-import data only). From project root directory:
-```
-docker-compose run --rm nginx rm -fr /cache/*
-```
+### Update OpenMapTiles data
 
-### Run the tiles server
+From the `openmaptiles` directory.
+
+Run the updater. It loops over pending updates, then wait for new update.
+```
+../scripts/40-update.sh
+```
+You can stop with CTRL-C, it will quit at the end of the current update.
+
+Imposm marks tiles to expire. Then a script in the nginx container watches and expires tiles in the nginx cache.
+
+
+## Run the tiles server
 
 From root directory. Start the OpenMapTiles database and the web server.
 ```
@@ -90,20 +78,20 @@ From root directory. Start the OpenMapTiles database and the web server.
 docker-compose up
 ```
 
-The direct acces to cached tiles and services at:
+Access to cached tiles and services at:
 
-* OpenMapTiles TileJson: http://0.0.0.0:6534/v3/info.json
-* Default "Basic" GL JSON Style: http://0.0.0.0:6534/styles/basic/style.json
-* Default "Basic" raster:
-  * TileJSON: http://0.0.0.0:6533/basic/info.json
-  * Raster tiles: http://0.0.0.0:6533/basic/{z}/{x}/{y}.png
-  * Demo: http://0.0.0.0:6533/?s=basic
+* Demo: http://0.0.0.0:8080
+* OpenMapTiles TileJson: http://0.0.0.0:8080/openmaptiles_v3/info.json
+* Default "Bright" GL JSON Style: http://0.0.0.0:8080/styles/bright/style.json
+* Default "Bright" raster:
+  * TileJSON: http://0.0.0.0:8080/bright/info.json
+  * Raster tiles: http://0.0.0.0:8080/bright/{z}/{x}/{y}.png
 
-### Configuration
+## Configuration
 
 Configuration files are Kartotherian configuration files `config.yaml` and `sources.yaml`.
 
-#### config.yaml
+### config.yaml
 
 Specific configuration part.
 
@@ -151,7 +139,7 @@ services:
               v3: openmaptiles_v3_raster
 ```
 
-#### styles.yaml
+### styles.yaml
 
 Mapbox GL native raster
 
@@ -167,23 +155,6 @@ source_name: # Unique source identifier
 
 ```
 
-## Update
-
-### OpenMapTiles Update
-
-From the `openmaptiles` directory.
-
-Run the updater. It loops over pending updates, then wait for new update.
-```
-docker-compose run --rm -e CONFIG_JSON=/import/imposm-config.json -e TILES_DIR=/import/expire_tiles update-osm
-```
-Stop it when the data are up to date with CTRL-C.
-
-### Tiles Cache Expiration
-
-```
-docker-compose exec nginx bash /opt/expire.sh
-```
 
 ## Benchmark
 

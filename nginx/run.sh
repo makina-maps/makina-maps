@@ -5,8 +5,8 @@ set -e
 # Run nginx
 nginx -g "daemon off;" &
 
-# Wait for nginx ready
-sleep 1
+# Wait for kartotherian to be ready
+sleep 5
 
 # Run expire tiles service
 ./expire.sh
