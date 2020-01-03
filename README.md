@@ -206,29 +206,29 @@ docker logs openmaptiles_postgres_1 |& grep 'LOG:  duration:' | cut -d ':' -f 3-
 
 Server metrics could be available on StatsD / Graphite on http://localhost:8899
 
-The metrics logs are disabled by default and could be enabled in `docker-compose.yml` by uncommenting the `graphite` service and the `metrics` section from `config.yaml`.
+The metrics logs are not used by default and could be enabled by adding `docker-compose-benchmark.yml` to docker-compose and uncommenting the `metrics` section from `config.yaml`.
 
 
 ### Queries
 
-Use [Artillery.io](https://artillery.io) to benchmark the tiles server. Uncomment the service in the `docker-compose.yml`.
+Use [Artillery.io](https://artillery.io) to benchmark the tiles server. Use `docker-compose-benchmark.yml`.
 
 Generate one set of tiles coordinates to be requested. Coordinates are tile ranges at zoom level 14 (https://www.maptiler.com/google-maps-coordinates-tile-bounds-projection/)
 ```
 # Continantal Europe
-docker-compose run --rm artillery bash -c 'ruby artillery.rb 8445-9451 5356-5891 | egrep "^14," > artillery.csv'
+docker-compose -f docker-compose.yml -f docker-compose-benchmark.yml run --rm artillery bash -c 'ruby artillery.rb 8445-9451 5356-5891 | egrep "^14," > artillery.csv'
 # Aquitaine
-docker-compose run --rm artillery bash -c 'ruby artillery.rb 8000-8200 5800-6000 | egrep "^14," > artillery.csv'
+docker-compose -f docker-compose.yml -f docker-compose-benchmark.yml run --rm artillery bash -c 'ruby artillery.rb 8000-8200 5800-6000 | egrep "^14," > artillery.csv'
 # Bordeaux area
-docker-compose run --rm artillery bash -c 'ruby artillery.rb 8157-8171 5895-5909 | egrep "^14," > artillery.csv'
+docker-compose -f docker-compose.yml -f docker-compose-benchmark.yml run --rm artillery bash -c 'ruby artillery.rb 8157-8171 5895-5909 | egrep "^14," > artillery.csv'
 # Paris area
-docker-compose run --rm artillery bash -c 'ruby artillery.rb 8285-8311 5621-5645 | egrep "^14," > artillery.csv'
+docker-compose -f docker-compose.yml -f docker-compose-benchmark.yml run --rm artillery bash -c 'ruby artillery.rb 8285-8311 5621-5645 | egrep "^14," > artillery.csv'
 ```
 
 Clear the tiles cache first. Then request the tiles server.
 ```
 docker-compose run --rm nginx rm -fr /cache/*
-docker-compose run --rm artillery artillery run artillery.yaml
+docker-compose -f docker-compose.yml -f docker-compose-benchmark.yml run --rm artillery artillery run artillery.yaml
 ```
 
 Random order tiles request on mixed urban and rural area, without concurrency. Time from server, HTTP included.
