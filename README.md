@@ -175,7 +175,7 @@ Specific only on 8 CPUs (import-osm, import-sql and psql-analyze, without docker
 
 Size of Imposm cache.
 ```
-(cd openmaptiles && docker-compose run import-osm bash -c "du -h /cache/")
+docker-compose run import-osm bash -c "du -h /cache/"
 ```
 
 Size of the current database.
