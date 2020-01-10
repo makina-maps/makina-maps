@@ -1,6 +1,6 @@
 # Makina Maps
 
-Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [Kartotherian](https://github.com/kartotherian/kartotherian) with the ability to:
+On Request Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [Kartotherian](https://github.com/kartotherian/kartotherian) with the ability to:
 
 * Build Vector Tiles on Demand from the OpenMapTiles database
 * Served Mapbox GL Style, with sprites and fonts
@@ -13,24 +13,25 @@ Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/open
 
 Install as system dependencies: git, make, docker and docker-compose.
 
+Get the project:
 ```
-git clone https://github.com/makinacorpus/makina-maps.git
+git clone --recurse-submodules https://github.com/makinacorpus/makina-maps.git
 cd makina-maps
-git submodule update --init --recursive
 ```
 
-### Prepare OpenMaptiles
+### Prepare OpenMapTiles
 
 Prepare OpenMapTiles configuration:
 ```
 cd openmaptiles
-sed -i "s/DIFF_MODE=false/DIFF_MODE=true/" .env
 make
 ```
 
-Fix OpenMapTiles (to allow usage of imposm config at import-osm step)
+Waiting for next OpenMapTiles Tools release, compile one module to allow usage of imposm config at import-osm step. From any directory:
 ```
-patch -p1 < ../docker-compose-openmaptiles.patch
+git clone -b imposm-0.8.1 https://github.com/frodrigo/openmaptiles-tools.git
+cd openmaptiles-tools/docker/import-osm
+docker build -t openmaptiles/import-osm:3.1.0-imposm-0.8.1 .
 ```
 
 ### OpenMapTiles initial Load
@@ -238,5 +239,5 @@ Random order tiles request on mixed urban and rural area, without concurrency. T
 | Zoom 12 mixte Europe | 50 ms |
 | Zoom 13, mixte Europe | 49 ms |
 | Zoom 14, mixte Europe| 60 ms |
-| Zoom 14, urban Paris | 270 ms |
+| Zoom 14, urban Paris | 250 ms |
 | From cache | 5 ms |
