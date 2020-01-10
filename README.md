@@ -19,6 +19,13 @@ git clone --recurse-submodules https://github.com/makinacorpus/makina-maps.git
 cd makina-maps
 ```
 
+Get GL Json Styles et fonts:
+```
+git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git styles/osm-bright-gl-style
+git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git styles/klokantech-basic-gl-style
+git clone -b gh-pages https://github.com/openmaptiles/fonts.git
+```
+
 ### Prepare OpenMapTiles
 
 Prepare OpenMapTiles configuration:
