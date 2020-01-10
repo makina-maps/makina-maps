@@ -1,6 +1,6 @@
 [submodule "openmaptiles"]
 	path = openmaptiles
-	url = https://github.com/openmaptiles/openmaptiles.git
+	url = https://github.com/frodrigo/openmaptiles.git
 [submodule "fonts"]
 	path = fonts
 	url = https://github.com/openmaptiles/fonts
