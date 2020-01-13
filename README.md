@@ -13,6 +13,8 @@ On Request Vector Tiles server based on [OpenMapTiles](https://github.com/openma
 
 Install as system dependencies: git, make, docker and docker-compose.
 
+### Clone Git reposittory
+
 Get the project:
 ```
 git clone --recurse-submodules https://github.com/makinacorpus/makina-maps.git
@@ -26,6 +28,24 @@ git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.
 git clone -b gh-pages https://github.com/openmaptiles/fonts.git
 ```
 
+### Setup Docker images
+
+Waiting for next OpenMapTiles Tools release, compile one module to allow usage of imposm config at import-osm step. From any directory:
+```
+git clone -b imposm-0.8.1 https://github.com/frodrigo/openmaptiles-tools.git
+cd openmaptiles-tools/docker/import-osm
+docker build -t openmaptiles/import-osm:3.1.0-imposm-0.8.1 .
+cd ../../..
+```
+
+Fetch or build docker images:
+```
+docker-compose build
+cd openmaptiles
+# Ignore failures as we temporary provide an image manualy
+docker-compose pull --ignore-pull-failures
+```
+
 ### Prepare OpenMapTiles
 
 Prepare OpenMapTiles configuration:
@@ -34,12 +54,7 @@ cd openmaptiles
 make
 ```
 
-Waiting for next OpenMapTiles Tools release, compile one module to allow usage of imposm config at import-osm step. From any directory:
-```
-git clone -b imposm-0.8.1 https://github.com/frodrigo/openmaptiles-tools.git
-cd openmaptiles-tools/docker/import-osm
-docker build -t openmaptiles/import-osm:3.1.0-imposm-0.8.1 .
-```
+## Import OpenStreetMap Data
 
 ### OpenMapTiles initial Load
 
@@ -53,7 +68,7 @@ Import generic data, not from OpenStreetMap:
 ../scripts/10-import-generic.sh
 ```
 
-Prepare import by download OpenStreetMap data and setup configuration for an area:
+Prepare import by download OpenStreetMap data and setup configuration for an area. The area names are from [Geofabrik](http://download.geofabrik.de/):
 ```
 ../scripts/20-import-prepare.sh europe/andorra
 ```
