@@ -34,7 +34,7 @@ inotifywait --monitor --recursive --event moved_to --format '%w%f' /data/expire_
     cat "${tiles}" | while read tile; do
         >&2 echo "${tile}"
         echo "${SOURCES}" | while read source; do
-            echo "--output /dev/null http://127.0.0.1/${source}/${tile}*"
+            echo "--output /dev/null http://127.0.0.1:81/${source}/${tile}*"
         done
     done | xargs -n 66 curl -X EXPIRE --silent
     rm "${tiles}"
