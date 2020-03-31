@@ -2,9 +2,6 @@
 
 set -e
 
-# Ensure postgres is up
-docker-compose up -d postgres && sleep 10
-
 # Remove OpenStreetMap diff
 docker-compose run --rm import-osm bash -c "rm -fr /import/??? /import/last.state.txt"
 
@@ -12,6 +9,7 @@ docker-compose run --rm import-osm bash -c "rm -fr /import/??? /import/last.stat
 docker-compose run --rm import-osm bash -c "rm -fr /import/expire_tiles/*"
 
 # Force to clean previously imported OpenStreetMap data.
+make db-start
 docker-compose exec postgres psql openmaptiles openmaptiles -c "
 DROP SCHEMA IF EXISTS backup CASCADE;
 DROP SCHEMA IF EXISTS building_polygon CASCADE;
@@ -19,9 +17,10 @@ DROP SCHEMA IF EXISTS building_polygon CASCADE;
 
 # Import OpenStreetMap data
 time bash -c "\
-docker-compose run -e CONFIG_JSON=/import/imposm-config.json --rm import-osm && \
-docker-compose run --rm import-wikidata && \
-docker-compose run --rm import-sql && \
+make import-osm && \
+make import-borders && \
+make import-sql && \
+make import-wikidata && \
 make psql-analyze
 "
 

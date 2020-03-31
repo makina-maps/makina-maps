@@ -2,10 +2,12 @@
 
 set -e
 
+make init-dirs
+
 # Import generic data
 
-docker-compose up -d postgres && sleep 10 && \
-docker-compose run --rm import-water && \
-docker-compose run --rm import-osmborder && \
-docker-compose run --rm import-natural-earth && \
-docker-compose run --rm import-lakelines
+make db-start && \
+make forced-clean-sql && \
+make import-water && \
+make import-natural-earth && \
+make import-lakelines
