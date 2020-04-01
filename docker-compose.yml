@@ -1,23 +1,12 @@
 version: '2.1'
 
 services:
-  kartotherian:
-    build:
-      context: kartotherian
+  tileserver-gl:
+    image: maptiler/tileserver-gl
     volumes:
-      - ./kartotherian/modules/kartotherian_gl_style_server:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl_style_server
-      - ./kartotherian/modules/kartotherian_sources_list_server:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_sources_list_server
-      - ./kartotherian/modules/kartotherian_gl:/opt/kartotherian/packages/kartotherian/node_modules/kartotherian_gl
-      - ./kartotherian/config.yaml:/opt/kartotherian/packages/kartotherian/config.yaml
-      - ./kartotherian/sources.yaml:/opt/kartotherian/packages/kartotherian/sources.yaml
-      - ./openmaptiles/build/openmaptiles.tm2source:/data/openmaptiles.tm2source
-      - ./styles:/styles
-      - ./fonts:/fonts
-      - ./kartotherian/static/public:/opt/kartotherian/packages/server/static
+      - ./tileserver-gl:/data
     networks:
       - openmaptiles_conn
-    ports:
-      - "6533:6533"
 
   nginx:
     build:

@@ -1,6 +1,6 @@
 # Makina Maps
 
-On Request Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [Kartotherian](https://github.com/kartotherian/kartotherian) with the ability to:
+On Request Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [TileServer GL](https://github.com/maptiler/tileserver-gl) with the ability to:
 
 * Build Vector Tiles on Demand from the OpenMapTiles database
 * Served Mapbox GL Style, with sprites and fonts
@@ -23,8 +23,9 @@ cd makina-maps
 
 Get GL Json Styles et fonts:
 ```
-git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git styles/osm-bright-gl-style
-git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git styles/klokantech-basic-gl-style
+mkdir -p tileserver-gl
+git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git tileserver-gl/styles/osm-bright-gl-style
+git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git tileserver-gl/styles/klokantech-basic-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/fonts.git
 ```
 
@@ -104,7 +105,7 @@ docker-compose up
 Access to cached tiles and services at:
 
 * Demo: http://0.0.0.0:8080
-* OpenMapTiles TileJson: http://0.0.0.0:8080/openmaptiles_v3/info.json
+* OpenMapTiles TileJson: http://0.0.0.0:8080/openmaptiles/v3/info.json
 * Default "Bright" GL JSON Style: http://0.0.0.0:8080/styles/bright/style.json
 * Default "Bright" raster:
   * TileJSON: http://0.0.0.0:8080/bright/info.json
