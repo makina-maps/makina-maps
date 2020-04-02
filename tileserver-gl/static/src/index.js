@@ -23,7 +23,7 @@ function main() {
     }));
 
     $.getJSON('/styles.json', function (json) {
-        var layerList = $('#styles');
+        const layerList = $('#styles');
         json
             .map(style => `<input id="${style.name}" type="radio" name="rtoggle" value="${style.url}"><label for="${style.name}"><a href="${style.url}">${style.name}</a></label></br>`)
             .forEach(html => layerList.append(html));
@@ -42,18 +42,11 @@ function main() {
         }
     });
 
-    $.getJSON('/sources.json', function (json) {
-        var rasterList = $('#raster');
+    $.getJSON('/rendered.json', function (json) {
+        const rasterList = $('#raster');
         json
-            .filter(source => source.formats.includes('png'))
-            .map(source => `<input id="${source.name}" type="radio" name="rtoggle" value="${source.url}"><label for="${source.name}"><a href="${source.url}">${source.name}</a></label></br>`)
+            .map((source, index) => `<input id="${source.name}" type="radio" name="rtoggle" value="${source.id}"><label for="${source.name}"><a href="/styles/${source.id}.json">${source.name}</a></label></br>`)
             .forEach(html => rasterList.append(html));
-
-        var vectorList = $('#vector');
-        json
-            .filter(source => source.formats.includes('pbf'))
-            .map(source => `<input id="${source.name}" type="radio" name="rtoggle" value="${source.url}" disabled="disabled"><label for="${source.name}"><a href="${source.url}">${source.name}</a></label></br>`)
-            .forEach(html => vectorList.append(html));
 
         var inputs = $('input', rasterList);
 
@@ -65,7 +58,7 @@ function main() {
                 "sources": {
                     "raster-tiles": {
                         "type": "raster",
-                        "url": layerId,
+                        "url": `/styles/${layerId}.json`,
                         "tileSize": 256
                     }
                 },
@@ -81,6 +74,14 @@ function main() {
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].onclick = switchLayer;
         }
+    });
+
+    $.getJSON('/data.json', function (json) {
+        var vectorList = $('#vector');
+        json
+            .filter(source => source.format.includes('pbf'))
+            .map(source => `<a href="/data/${source.id}.json">${source.name}</a></br>`)
+            .forEach(html => vectorList.append(html));
     });
 }
 

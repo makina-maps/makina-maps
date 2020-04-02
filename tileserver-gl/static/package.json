@@ -10,14 +10,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "css-loader": "^3.2.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0"
+    "css-loader": "^3.4.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "jquery": "^3.4.1",
-    "mapbox-gl": "^1.5.0",
-    "style-loader": "^1.0.0"
+    "mapbox-gl": "^1.9.0",
+    "style-loader": "^1.1.3"
   }
 }
