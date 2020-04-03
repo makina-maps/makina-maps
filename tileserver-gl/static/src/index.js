@@ -45,7 +45,13 @@ function main() {
     $.getJSON('/rendered.json', function (json) {
         const rasterList = $('#raster');
         json
-            .map((source, index) => `<input id="${source.name}" type="radio" name="rtoggle" value="${source.id}"><label for="${source.name}"><a href="/styles/${source.id}.json">${source.name}</a></label></br>`)
+            .map(source => `
+            <input id="${source.name}" type="radio" name="rtoggle" value="${source.id}">
+            <label for="${source.name}">
+                <a href="/styles/${source.id}.json">${source.name}</a>
+                <a href="/styles/${source.id}/wmts.xml">WMTS</a>
+            </label>
+            </br>`)
             .forEach(html => rasterList.append(html));
 
         var inputs = $('input', rasterList);
