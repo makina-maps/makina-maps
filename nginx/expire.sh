@@ -5,7 +5,7 @@ set -e
 # curl -X GET -I http://127.0.0.1/openmaptiles_v3/14/8166/5900.pbf > /dev/null
 # curl -X EXPIRE http://127.0.0.1/openmaptiles_v3/14/8166/5900.pbf
 
-SOURCES_JSON=http://kartotherian:6533/sources.json
+SOURCES_JSON=http://tileserver-gl/index.json
 
 attempt_counter=0
 max_attempts=20
@@ -16,12 +16,12 @@ until $(curl --output /dev/null --silent --head --fail "${SOURCES_JSON}"); do
       exit 1
     fi
 
-    printf '.'
+    echo "Fetch tiles sources $attempt_counter/$max_attempts"
     attempt_counter=$(($attempt_counter+1))
     sleep 1
 done
 
-SOURCES=`curl "${SOURCES_JSON}" | jq -r .[].name`
+SOURCES=`curl "${SOURCES_JSON}" | jq -r .[].id`
 
 echo "EXPIRE SOURCE:" $SOURCES
 

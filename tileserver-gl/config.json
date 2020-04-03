@@ -1,0 +1,42 @@
+{
+  "options": {
+    "paths": {
+      "root": "",
+      "fonts": "fonts",
+      "styles": "styles"
+    },
+    "domains": [
+      "localhost:8080"
+    ],
+    "formatQuality": {
+      "jpeg": 80,
+      "webp": 90
+    },
+    "maxScaleFactor": 3,
+    "maxSize": 2048,
+    "pbfAlias": "pbf",
+    "serveAllFonts": false,
+    "serveAllStyles": false,
+    "serveStaticMaps": true,
+    "tileMargin": 0
+  },
+  "styles": {
+    "bright": {
+      "style": "osm-bright-gl-style/style-local.json"
+    },
+    "basic": {
+      "serve_rendered": false,
+      "style": "klokantech-basic-gl-style/style-local.json"
+    }
+  },
+  "data": {
+    "v3": {
+      "remote_tilejson": "http://postserve:8090/",
+      "tilejson": {
+        "tiles": [
+          "http://localhost:8080/data/v3/{z}/{x}/{y}.pbf"
+        ]
+      }
+    }
+  }
+}

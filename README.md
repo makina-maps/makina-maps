@@ -23,7 +23,6 @@ cd makina-maps
 
 Get GL Json Styles et fonts:
 ```
-mkdir -p tileserver-gl
 git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git tileserver-gl/styles/osm-bright-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git tileserver-gl/styles/klokantech-basic-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/fonts.git
@@ -31,29 +30,13 @@ git clone -b gh-pages https://github.com/openmaptiles/fonts.git
 
 ### Setup Docker images
 
-Waiting for next OpenMapTiles Tools release, compile one module to allow usage of imposm config at import-osm step. From any directory:
-```
-git clone -b imposm-0.8.1 https://github.com/frodrigo/openmaptiles-tools.git
-cd openmaptiles-tools/docker/import-osm
-docker build -t openmaptiles/import-osm:3.1.0-imposm-0.8.1 .
-cd ../../..
-```
-
 Fetch or build docker images:
 ```
 docker-compose build
 cd openmaptiles
-# Ignore failures as we temporary provide an image manualy
-docker-compose pull --ignore-pull-failures
+docker-compose pull
 ```
 
-### Prepare OpenMapTiles
-
-Prepare OpenMapTiles configuration:
-```
-cd openmaptiles
-make
-```
 
 ## Import OpenStreetMap Data
 
@@ -98,85 +81,81 @@ Imposm marks tiles to expire. Then a script in the nginx container watches and e
 
 From root directory. Start the OpenMapTiles database and the web server.
 ```
-(cd openmaptiles && make db-start)
+(cd openmaptiles && make db-start && docker-compose up -d postserve)
 docker-compose up
 ```
 
 Access to cached tiles and services at:
 
 * Demo: http://0.0.0.0:8080
-* OpenMapTiles TileJson: http://0.0.0.0:8080/openmaptiles/v3/info.json
+* OpenMapTiles TileJson: http://0.0.0.0:8080/data/v3.json
 * Default "Bright" GL JSON Style: http://0.0.0.0:8080/styles/bright/style.json
 * Default "Bright" raster:
-  * TileJSON: http://0.0.0.0:8080/bright/info.json
-  * Raster tiles: http://0.0.0.0:8080/bright/{z}/{x}/{y}.png
+  * TileJSON: http://0.0.0.0:8080/styles/bright.json
+  * Raster tiles: http://0.0.0.0:8080/styles/bright/{z}/{x}/{y}.png
 
 ## Configuration
 
-Configuration files are Kartotherian configuration files `config.yaml` and `sources.yaml`.
+Configuration file is Tileserver-GL configuration file `tileserver-gl/config.json`.
 
-### config.yaml
+Get more detail about this configuration at the [Tileserver-GL documentation](https://tileserver.readthedocs.io/en/latest/config.html).
 
-Specific configuration part.
+### Styles
 
-```yaml
-services:
-  - name: kartotherian
-      variables:
-        OPENMAPTILES_V3_TILES_URLS:
-        - http://localhost:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
-        - http://127.0.0.1:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
-        - http://[::1]:8080/openmaptiles_v3/{z}/{x}/{y}.pbf
-        OPENMAPTILES_V3_TILES_URLS_INTERNAL:
-        - http://nginx:80/openmaptiles_v3_raster/{z}/{x}/{y}.pbf
-        BRIGHT_TILES_URLS:
-        - http://localhost:8080/bright/{z}/{x}/{y}.png
-        - http://127.0.0.1:8080/bright/{z}/{x}/{y}.png
-        - http://[::1]:8080/bright/{z}/{x}/{y}.png
-
-      modules:
-      - "tilelive-tmstyle"
-      - "@kartotherian/tilelive-tmsource"
-      - "@mapbox/tilejson"
-      - kartotherian_gl # Render raster tiles
-
-      requestHandlers:
-      - kartotherian_gl_style_server # Serve Mapbox GL Style
-      - kartotherian_sources_list_server # Serve the list of sources
-
-      sources_server:
-        prefix_public: http://localhost:8080 # External hostname, should be changed to https://example.com
-
-      styles:
-        prefix_public: http://localhost:8080 # External hostname, should be changed to https://example.com
-        prefix_internal: http://kartotherian:6533 # Internal, required for render raster
-        paths:
-          styles: /styles # Path to styles, in the Docker container
-          fonts: /fonts # Path to fonts, in the Docker container
-        font_fallback: Klokantech Noto Sans Regular # Serve this font when the font is not found
-        styles:
-          basic: # Name of the style
-            style: klokantech-basic-gl-style/style-local.json # Relative path the style JSON
-            sources_map: # Map of the style source (`mbtiles://{v3}`) to source name from `sources.yaml`
-              v3: openmaptiles_v3
-            sources_map_internal: # Internal, required for render raster
-              v3: openmaptiles_v3_raster
+```js
+  "styles": {
+    "bright": {
+      // Path to the Mapbox-GL Style
+      "style": "osm-bright-gl-style/style-local.json"
+    },
+    "basic": {
+      // Disable the render as raster (PNG...)
+      "serve_rendered": false,
+      "style": "klokantech-basic-gl-style/style-local.json"
+    }
+  },
 ```
 
-### styles.yaml
+### Vector tile data sources
 
-Mapbox GL native raster
+```js
+  "data": {
+    // Name of the source, here OpenMapTiles v3
+    "v3": {
+      // On demand tiles, internal URL
+      // Alternatively could be a MBTiles
+      // This option is specific to Makina Maps and not available in standard Tileserver-GL
+      "remote_tilejson": "http://postserve:8090/"
+      }
+    }
+  }
+```
 
-```yaml
-source_name: # Unique source identifier
-  public: true
-  formats: [png, jpeg, webp]
-  uri: kartotherian+gl:///
-  params:
-    style: bright # Style defined in to `config.yaml`
-  overrideInfo:
-    tiles: {var: BRIGHT_TILES_URLS} # From `config.yaml`
+### Public URLS
 
+The `domains` may be adjusted. There used only for raster tiles.
+
+```js
+    "domains": [
+      // Publicly available domains, for raster tiles
+      "a.example.com",
+      "b.example.com"
+    ],
+```
+
+```js
+  "data": {
+    "v3": {
+      "remote_tilejson": "http://postserve:8090/",
+      "tilejson": {
+        "tiles": [
+          // Public available URLs of vector tiles
+          "http://a.example.com/data/v3/{z}/{x}/{y}.pbf",
+          "http://b.example.com/data/v3/{z}/{x}/{y}.pbf"
+        ]
+      }
+    }
+  }
 ```
 
 
