@@ -267,3 +267,9 @@ Random order tiles request on mixed urban and rural area, without concurrency. T
 | Zoom 14, mixte Europe| 60 ms |
 | Zoom 14, urban Paris | 250 ms |
 | From cache | 5 ms |
+
+
+
+docker build -t oslandia/postile:0.2-local .
+
+

@@ -1,6 +1,16 @@
 version: '2.1'
 
 services:
+  postile:
+    image: oslandia/postile:0.2-local
+    command: postile --pguser openmaptiles --pgpassword openmaptiles --pgdatabase openmaptiles --pghost postgres --listen-port 80 --cors --tm2 /tm2/openmaptiles.tm2source/data.yml --listen 0.0.0.0
+    volumes:
+      - ./openmaptiles/build:/tm2
+    networks:
+      - openmaptiles_conn
+    ports:
+      - "8050:80"
+
   tileserver-gl:
     build:
       context: tileserver-gl/tileserver-gl
@@ -19,6 +29,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./cache:/cache
       - ./openmaptiles/data/expire_tiles:/data/expire_tiles
+      - ./tilejson.json:/tilejson/tilejson/v3.json
     networks:
       - openmaptiles_conn
     ports:

@@ -31,7 +31,7 @@
   },
   "data": {
     "v3": {
-      "remote_tilejson": "http://postserve:8090/",
+      "remote_tilejson": "http://nginx/tilejson/v3.json",
       "tilejson": {
         "tiles": [
           "http://localhost:8080/data/v3/{z}/{x}/{y}.pbf"
