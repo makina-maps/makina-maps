@@ -21,7 +21,7 @@ git clone --recurse-submodules https://github.com/makinacorpus/makina-maps.git
 cd makina-maps
 ```
 
-Get GL Json Styles et fonts:
+Get GL Json Styles and Fonts:
 ```
 git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git tileserver-gl/styles/osm-bright-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git tileserver-gl/styles/klokantech-basic-gl-style
@@ -30,7 +30,7 @@ git clone -b gh-pages https://github.com/openmaptiles/fonts.git
 
 ### Setup Docker images
 
-Fetch or build docker images:
+Build and Fetch docker images:
 ```
 docker-compose build
 cd openmaptiles
@@ -109,15 +109,16 @@ Get more detail about this configuration at the [Tileserver-GL documentation](ht
       "style": "osm-bright-gl-style/style-local.json"
     },
     "basic": {
-      // Disable the render as raster (PNG...)
+      // Disable the render as raster (no PNG...)
       "serve_rendered": false,
       "style": "klokantech-basic-gl-style/style-local.json"
     }
   },
 ```
 
-### Vector tile data sources
+### Vector tiles data sources
 
+Where the vector tiles are come from. Can be generated on the fly from OpenMapTiles database, other external source or local MBTiles files.
 ```js
   "data": {
     // Name of the source, here OpenMapTiles v3
@@ -131,7 +132,7 @@ Get more detail about this configuration at the [Tileserver-GL documentation](ht
   }
 ```
 
-### Public URLS
+### Public URLs
 
 The `domains` may be adjusted. There used only for raster tiles.
 
@@ -143,6 +144,7 @@ The `domains` may be adjusted. There used only for raster tiles.
     ],
 ```
 
+The vector tiles source (tilejon) should be overwritten to expose public URLs.
 ```js
   "data": {
     "v3": {
@@ -156,6 +158,28 @@ The `domains` may be adjusted. There used only for raster tiles.
       }
     }
   }
+```
+
+The tiles URLs in tilejson from vector tiles producer are internal to the docker-compose and refer to internal host. Should be redefined as public URLs for outside world.
+
+
+## Overview
+
+Architecture overview, workflow.
+
+```ascii-art
+               Nginx                  OpenMapTiles
+               Cache   TileServer-GL    postserve
+
+tilejson <------ X <-------- X <----------- X
+                                            |
+                                   ,--------'
+                                   |
+pbf tiles <---- -X <---------------|------- X
+                 |                 |
+                  `--------> X <---'
+                             |
+png tiles <----- X <---------'
 ```
 
 
