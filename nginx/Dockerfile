@@ -8,9 +8,11 @@ RUN apk update && \
         bash \
         curl \
         inotify-tools \
-        jq
+        jq \
+        python
 
 COPY run.sh /
 COPY expire.sh /
+COPY tile_multiplier.py /
 
 CMD ["/run.sh"]
