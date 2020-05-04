@@ -81,7 +81,7 @@ Imposm marks tiles to expire. Then a script in the nginx container watches and e
 
 From root directory. Start the OpenMapTiles database and the web server.
 ```
-(cd openmaptiles && make db-start && docker-compose up -d postserve)
+(cd openmaptiles && make start-db && make start-postserve)
 docker-compose up
 ```
 
