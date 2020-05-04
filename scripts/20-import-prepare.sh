@@ -2,18 +2,27 @@
 
 set -e
 
+export PROVIDER=geofabrik
 export AREA=${1:-europe/andorra}
-EXTRACT="http://download.geofabrik.de/${AREA}-latest.osm.pbf"
-EXTRACT_UPDATE="http://download.geofabrik.de/${AREA}-updates/"
 
 # Remove existing OpenStreetMap extract
 TARGET="${AREA##*/}-latest.osm.pbf"
-find ./data -name *.pbf | grep -v "${TARGET}" | while read pbf; do
+find ./data -name "*.pbf" | grep -v "${TARGET}" | while read pbf; do
     mv "${pbf}" "${pbf}_"
 done
 
-# Setup the configuration for data updater
-echo "{\"replication_url\": \"${EXTRACT_UPDATE}\", \"replication_interval\": \"24h\"}" > data/imposm-config.json
+if test -f "./data/${TARGET}"; then
+    echo "${TARGET} already exist, skip download."
+    exit
+fi
 
-# Download OpenStreetMap extract
-wget -nc "${EXTRACT}" -P data/
+source .env
+
+docker-compose run openmaptiles-tools bash -c \
+    "download-osm ${PROVIDER} ${AREA} \\
+        --verbose \\
+        --minzoom ${QUICKSTART_MIN_ZOOM} \\
+        --maxzoom ${QUICKSTART_MAX_ZOOM} \\
+        --imposm-cfg ${IMPOSM_CONFIG_FILE} \\
+        --state /import/last.state.txt \\
+        --make-dc /import/docker-compose-config.yml -- -d /import"

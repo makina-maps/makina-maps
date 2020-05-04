@@ -3,10 +3,10 @@
 set -e
 
 # Remove OpenStreetMap diff
-docker-compose run --rm import-osm bash -c "rm -fr /import/??? /import/last.state.txt"
+docker-compose run --rm openmaptiles-tools bash -c "rm -fr /import/??? /import/last.state.txt"
 
 # Remove expire tiles
-docker-compose run --rm import-osm bash -c "rm -fr /import/expire_tiles/*"
+docker-compose run --rm openmaptiles-tools bash -c "rm -fr /import/expire_tiles/*"
 
 # Force to clean previously imported OpenStreetMap data.
 make db-start
