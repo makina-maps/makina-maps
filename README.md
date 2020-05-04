@@ -254,7 +254,7 @@ docker-compose -f docker-compose.yml -f docker-compose-benchmark.yml run --rm ar
 
 Clear the tiles cache first. Then request the tiles server.
 ```
-docker-compose run --rm nginx rm -fr /cache/*
+docker-compose run --rm nginx bash -c "rm -fr /cache/*"
 docker-compose -f docker-compose.yml -f docker-compose-benchmark.yml run --rm artillery artillery run artillery.yaml
 ```
 
