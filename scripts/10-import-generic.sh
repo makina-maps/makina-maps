@@ -6,5 +6,5 @@ make init-dirs
 
 # Import generic data
 
-make db-start && \
+make start-db && \
 make import-data

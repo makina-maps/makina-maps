@@ -9,7 +9,7 @@ docker-compose run --rm openmaptiles-tools bash -c "rm -fr /import/??? /import/l
 docker-compose run --rm openmaptiles-tools bash -c "rm -fr /import/expire_tiles/*"
 
 # Force to clean previously imported OpenStreetMap data.
-make db-start
+make start-db
 docker-compose exec postgres psql openmaptiles openmaptiles -c "
 DROP SCHEMA IF EXISTS backup CASCADE;
 DROP SCHEMA IF EXISTS building_polygon CASCADE;
@@ -21,7 +21,7 @@ make import-osm && \
 make import-borders && \
 make import-sql && \
 make import-wikidata && \
-make psql-analyze
+make analyze-db
 "
 
 # Then clear the tile cache (re-import data only). From project root directory:
