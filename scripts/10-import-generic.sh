@@ -6,5 +6,6 @@ make init-dirs
 
 # Import generic data
 
-make start-db && \
+make destroy-db
+make start-db
 make import-data

@@ -15,6 +15,10 @@ DROP SCHEMA IF EXISTS backup CASCADE;
 DROP SCHEMA IF EXISTS building_polygon CASCADE;
 "
 
+# Empty the imposm cache
+rm -fr cache
+mkdir cache
+
 # Import OpenStreetMap data
 time bash -c "\
 make import-osm && \
