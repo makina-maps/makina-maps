@@ -2,7 +2,7 @@
 
 set -e
 
-export PROVIDER=geofabrik
+export PROVIDER=${PROVIDER:-geofabrik}
 export AREA=${1:-europe/andorra}
 
 # Remove existing OpenStreetMap extract
@@ -16,6 +16,11 @@ if test -f "./data/${TARGET}"; then
     exit
 fi
 
+# Remove OpenStreetMap diff
+make init-dirs
+docker-compose run --rm openmaptiles-tools bash -c "rm -fr /import/??? /import/expire_tiles"
+mkdir -p data/expire_tiles
+
 source .env
 
 docker-compose run openmaptiles-tools bash -c \
@@ -25,4 +30,8 @@ docker-compose run openmaptiles-tools bash -c \
         --maxzoom ${QUICKSTART_MAX_ZOOM} \\
         --imposm-cfg ${IMPOSM_CONFIG_FILE} \\
         --state /import/last.state.txt \\
-        --make-dc /import/docker-compose-config.yml -- -d /import"
+        --make-dc /import/docker-compose-config.yml \\
+        -- \\
+        -d /import \\
+        --summary-interval=10 \\
+    "
