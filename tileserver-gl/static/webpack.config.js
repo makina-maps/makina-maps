@@ -2,6 +2,7 @@
 const path = require("path");
 
 let config = {
+  devtool: "source-map",
   entry: "./src/index.js",
   module: {
     rules: [
