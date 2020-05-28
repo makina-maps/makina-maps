@@ -85,7 +85,7 @@ function main() {
     $.getJSON('/data.json', function (json) {
         var vectorList = $('#vector');
         json
-            .filter(source => source.format.includes('pbf'))
+            .filter(source => !source.format || source.format.includes('pbf'))
             .map(source => `<a href="/data/${source.id}.json">${source.name}</a></br>`)
             .forEach(html => vectorList.append(html));
     });
