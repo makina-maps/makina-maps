@@ -165,6 +165,8 @@ The tiles URLs in tilejson from vector tiles producer are internal to the docker
 
 ## Overview
 
+<img src="architecture.svg" alt="drawing" width="500"/>
+
 Architecture overview, workflow.
 
 ```ascii-art
@@ -175,7 +177,7 @@ tilejson <------ X <-------- X <----------- X
                                             |
                                    ,--------'
                                    |
-pbf tiles <---- -X <---------------|------- X
+pbf tiles <----- X <---------------|------- X
                  |                 |
                   `--------> X <---'
                              |
