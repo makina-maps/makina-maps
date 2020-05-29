@@ -25,7 +25,7 @@ Get GL Json Styles and Fonts:
 ```
 git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git tileserver-gl/styles/osm-bright-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git tileserver-gl/styles/klokantech-basic-gl-style
-git clone -b gh-pages https://github.com/openmaptiles/fonts.git
+git clone -b gh-pages https://github.com/openmaptiles/fonts.git tileserver-gl/fonts
 ```
 
 ### Setup Docker images
@@ -204,7 +204,7 @@ Specific only on 8 CPUs (import-osm, import-sql and psql-analyze, without docker
 
 Size of Imposm cache.
 ```
-docker-compose run import-osm bash -c "du -h /cache/"
+docker-compose run --rm openmaptiles-tools bash -c "du -h /cache/"
 ```
 
 Size of the current database.
