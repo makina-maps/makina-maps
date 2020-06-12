@@ -5,7 +5,7 @@ set -e
 DC_OPTS="--rm -u $(id -u):$(id -g)"
 
 export PROVIDER=${PROVIDER:-geofabrik}
-export AREA=${1:-europe/andorra}
+export AREA=${1:-andorra}
 
 # Remove existing OpenStreetMap extract
 TARGET="${AREA##*/}-latest.osm.pbf"
@@ -20,7 +20,7 @@ fi
 
 # Remove OpenStreetMap diff
 make init-dirs
-docker-compose run ${DC_OPTS} openmaptiles-tools bash -c "rm -fr /import/??? /import/expire_tiles"
+docker-compose run ${DC_OPTS} openmaptiles-tools bash -c "rm -fr /import/??? /import/borders /import/expire_tiles"
 mkdir -p data/expire_tiles
 
 source .env
@@ -28,8 +28,8 @@ source .env
 docker-compose run ${DC_OPTS} openmaptiles-tools bash -c \
     "download-osm ${PROVIDER} ${AREA} \\
         --verbose \\
-        --minzoom ${QUICKSTART_MIN_ZOOM} \\
-        --maxzoom ${QUICKSTART_MAX_ZOOM} \\
+        --minzoom ${MIN_ZOOM} \\
+        --maxzoom ${MAX_ZOOM} \\
         --imposm-cfg ${IMPOSM_CONFIG_FILE} \\
         --state /import/last.state.txt \\
         --make-dc /import/docker-compose-config.yml \\
