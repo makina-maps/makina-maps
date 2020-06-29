@@ -23,17 +23,4 @@ make init-dirs
 docker-compose run ${DC_OPTS} openmaptiles-tools bash -c "rm -fr /import/??? /import/borders /import/expire_tiles"
 mkdir -p data/expire_tiles
 
-source .env
-
-docker-compose run ${DC_OPTS} openmaptiles-tools bash -c \
-    "download-osm ${PROVIDER} ${AREA} \\
-        --verbose \\
-        --minzoom ${MIN_ZOOM} \\
-        --maxzoom ${MAX_ZOOM} \\
-        --imposm-cfg ${IMPOSM_CONFIG_FILE} \\
-        --state /import/last.state.txt \\
-        --make-dc /import/docker-compose-config.yml \\
-        -- \\
-        -d /import \\
-        --summary-interval=10 \\
-    "
+make download-${PROVIDER} area=${AREA}

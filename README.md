@@ -54,7 +54,7 @@ Import generic data, not from OpenStreetMap:
 
 Prepare import by download OpenStreetMap data and setup configuration for an area. The area names are from [Geofabrik](http://download.geofabrik.de/):
 ```
-../scripts/20-import-prepare.sh europe/andorra
+../scripts/20-import-prepare.sh andorra
 ```
 
 Import the OpenStreetMap extract from data directory:
