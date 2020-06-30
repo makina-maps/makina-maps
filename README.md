@@ -25,6 +25,7 @@ Get GL Json Styles and Fonts:
 ```
 git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git tileserver-gl/styles/osm-bright-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git tileserver-gl/styles/klokantech-basic-gl-style
+git clone -b gh-pages https://github.com/makinacorpus/cassini-gl-style.git tileserver-gl/styles/cassini-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/fonts.git tileserver-gl/fonts
 ```
 

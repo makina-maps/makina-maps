@@ -27,6 +27,10 @@
     "basic": {
       "serve_rendered": false,
       "style": "klokantech-basic-gl-style/style-local.json"
+    },
+    "cassini": {
+      "serve_rendered": false,
+      "style": "cassini-gl-style/style-local.json"
     }
   },
   "data": {
