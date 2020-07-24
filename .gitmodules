@@ -1,6 +1,6 @@
 [submodule "openmaptiles"]
 	path = openmaptiles
-	url = https://github.com/frodrigo/openmaptiles.git
+	url = https://github.com/makina-maps/openmaptiles.git
 [submodule "tileserver-gl/tileserver-gl"]
 	path = tileserver-gl/tileserver-gl
-	url = https://github.com/frodrigo/tileserver-gl.git
+	url = https://github.com/makina-maps/tileserver-gl.git

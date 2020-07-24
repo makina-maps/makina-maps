@@ -17,7 +17,7 @@ Install as system dependencies: git, make, docker and docker-compose.
 
 Get the project:
 ```
-git clone --recurse-submodules https://github.com/makinacorpus/makina-maps.git
+git clone --recurse-submodules https://github.com/makina-maps/makina-maps.git
 cd makina-maps
 ```
 
