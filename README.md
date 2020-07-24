@@ -1,11 +1,14 @@
 # Makina Maps
 
-On Request Vector Tiles server based on [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) and [TileServer GL](https://github.com/maptiler/tileserver-gl) with the ability to:
+Full Stack to Build, Serve and Update your own Vector and Raster Tiles from OpenStreetMap Data.
 
-* Build Vector Tiles on Demand from the OpenMapTiles database
-* Served Mapbox GL Style, with sprites and fonts
-* Render Raster version of Mapbox GL style
-* Cache vector and Raster tiles
+Makina Maps render tiles on request, no need to pre-generate all tiles on huge MBTiles archive: fast setup, fast update.
+
+* Build Vector Tiles on request from the [OpenMapTiles](https://github.com/openmaptiles/openmaptiles) database and schema
+* Served Mapbox GL Styles, with sprites and fonts with embed [TileServer GL](https://github.com/maptiler/tileserver-gl)
+* Render Raster version of Mapbox GL style (TileServer GL)
+* Cache vector and raster tiles (NGINX)
+* Update from OpenStreetMap
 
 ![screen](screen.jpeg)
 
@@ -21,7 +24,7 @@ git clone --recurse-submodules https://github.com/makina-maps/makina-maps.git
 cd makina-maps
 ```
 
-Get GL Json Styles and Fonts:
+Get default GL Json Styles and Fonts, or use your owns:
 ```
 git clone -b gh-pages https://github.com/openmaptiles/osm-bright-gl-style.git tileserver-gl/styles/osm-bright-gl-style
 git clone -b gh-pages https://github.com/openmaptiles/klokantech-basic-gl-style.git tileserver-gl/styles/klokantech-basic-gl-style
@@ -53,12 +56,12 @@ Import generic data, not from OpenStreetMap:
 ../scripts/10-import-generic.sh
 ```
 
-Prepare import by download OpenStreetMap data and setup configuration for an area. The area names are from [Geofabrik](http://download.geofabrik.de/):
+Prepare import by download OpenStreetMap data and setup configuration for an area. The area names are from [Geofabrik](http://download.geofabrik.de/), store it in the `data` directory:
 ```
 ../scripts/20-import-prepare.sh andorra
 ```
 
-Import the OpenStreetMap extract from data directory:
+Import the OpenStreetMap extract:
 ```
 ../scripts/30-import-extract.sh
 ```
