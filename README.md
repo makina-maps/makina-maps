@@ -195,14 +195,16 @@ png tiles <----- X <---------'
 
 Specific only on 8 CPUs (import-osm, import-sql and psql-analyze, without docker pulling time).
 
-| Area | PBF size | Imposm cache | Postgres size | Time 8 CPUs / SSD | Time 4 CPUs / HD | 1 d Update |
+| Area | PBF size | Imposm cache | Postgres size | Time 8 CPUs / SSD | 1 d Update |
 |-|-:|-:|-:|-:|-:|-:|
-| Andorra | 243 Ko | 3.3 Mo | 3.5 Go | 36 s | 1 min 21 s | |
-| Alsace | 100 Mo | 156 Mo | 4.5 Go | 3 min 20 s | 4 min 32 s | |
-| Aquitaine | 214 Mo | 374 Mo | 6.4 Go | 6 min 40 s | 8 m 39 s | 1 min |
-| Austria | 559 Mo | 781 Mo| 9.4 Go  | 23 min | 26 min 35 s | |
-| France | 3.5 Go | | 35 Go | 105 min | 210 min 58 s | |
-| Europe | 20 Go | 35 Go | 206 Go | 12 h 22 min | 3 d 23 h | 3 h |
+| Andorra | 1.6 MB | 3.5 MB | 167 MB | 1 min 11 s | |
+| Alsace | 103 MB | 297 MB | 1.2 GB | 3 min 35 s | |
+| Aquitaine | 220 MB | 533 MB |  2.6 GB | 6 min 32 s | 1 min |
+| Austria | 582 MB | 1.1 GB | 6.4 GB  | 13 min | 2 min 50 |
+| France | 3.6 GB | 6.5 GB | 38 GB | 99 min | 5 min |
+| Europe | 20 Go | 35 Go | 206 Go | 11 h 50 min | 1 h 20 |
+
+Without SSD hardware it will be many times slower.
 
 ### Database
 
