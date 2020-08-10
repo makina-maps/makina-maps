@@ -11,13 +11,13 @@
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^3.6.0",
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "jquery": "^3.5.1",
-    "mapbox-gl": "^1.11.0",
+    "mapbox-gl": "^1.11.1",
     "style-loader": "^1.2.1"
   }
 }
