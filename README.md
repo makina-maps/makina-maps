@@ -202,7 +202,7 @@ Specific only on 8 CPUs (import-osm, import-sql and psql-analyze, without docker
 | Aquitaine | 220 MB | 533 MB |  2.6 GB | 6 min 32 s | 1 min |
 | Austria | 582 MB | 1.1 GB | 6.4 GB  | 13 min | 2 min 50 |
 | France | 3.6 GB | 6.5 GB | 38 GB | 99 min | 5 min |
-| Europe | 20 Go | 35 Go | 206 Go | 11 h 50 min | 1 h 20 |
+| Europe | 20 Go | 35 Go | 206 Go | 11 h 50 min | 2 h |
 
 Without SSD hardware it will be many times slower.
 
