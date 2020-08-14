@@ -196,7 +196,7 @@ png tiles <----- X <---------'
 Specific only on 8 CPUs (import-osm, import-sql and psql-analyze, without docker pulling time).
 
 | Area | PBF size | Imposm cache | Postgres size | Time 8 CPUs / SSD | 1 d Update |
-|-|-:|-:|-:|-:|-:|-:|
+|-|-:|-:|-:|-:|-:|
 | Andorra | 1.6 MB | 3.5 MB | 167 MB | 1 min 11 s | |
 | Alsace | 103 MB | 297 MB | 1.2 GB | 3 min 35 s | |
 | Aquitaine | 220 MB | 533 MB |  2.6 GB | 6 min 32 s | 1 min |
