@@ -51,6 +51,11 @@ Use the management scripts from `openmaptiles` directory.
 cd openmaptiles
 ```
 
+To reset from a previous install and erase database, run:
+```
+docker-compose down -v
+```
+
 Import generic data, not from OpenStreetMap:
 ```
 ../scripts/10-import-generic.sh
@@ -83,9 +88,14 @@ Imposm marks tiles to expire. Then a script in the nginx container watches and e
 
 ## Run the tiles server
 
+To reset the tile server from a previous install (does not touch the OpenMapTiles database), run:
+```
+docker-compose down -v
+```
+
 From root directory. Start the OpenMapTiles database and the web server.
 ```
-(cd openmaptiles && make start-db && make start-postserve)
+cd openmaptiles && make start-postserve && cd ..
 docker-compose up
 ```
 
