@@ -19,6 +19,10 @@ DROP SCHEMA IF EXISTS building_polygon CASCADE;
 rm -fr cache
 mkdir cache
 
+# Force clean / rebuild SQL
+rm -fr build/*
+make
+
 # Import OpenStreetMap data
 time bash -c "\
 make import-osm && \
