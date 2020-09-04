@@ -5,12 +5,13 @@ import sys
 min_zoom, max_zoom = [int(z) for z in sys.argv[1:3]]
 tile_set = set()
 
-def print_once(x, y, z):
-    tile = '{}/{}/{}'.format(z, x, y)
-    num_tiles = len(tile_set)
-    tile_set.add(tile)
-    if num_tiles < len(tile_set):
-        print tile
+def print_once(z, x, y):
+    if min_zoom <= z <= max_zoom:
+        tile = '{}/{}/{}'.format(z, x, y)
+        num_tiles = len(tile_set)
+        tile_set.add(tile)
+        if num_tiles < len(tile_set):
+            print tile
 
 for line in sys.stdin:
     z, x, y = [int(i) for i in line.split('/')]
