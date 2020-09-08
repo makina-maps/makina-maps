@@ -31,7 +31,7 @@ find /data/expire_tiles/???????? -name *.tiles & \
 # Watch to expire new tiles
 inotifywait --monitor --recursive --event moved_to --format '%w%f' /data/expire_tiles/
 } | while read tiles; do
-    cat "${tiles}" | ./tile_multiplier.py 10 14 | sort | uniq | while read tile; do
+    cat "${tiles}" | ./tile_multiplier.py 10 14 | while read tile; do
         >&2 echo "${tile}"
         echo "${SOURCES}" | while read source; do
             echo "--output /dev/null http://127.0.0.1:81/${source}/${tile}*"
