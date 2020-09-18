@@ -9,7 +9,8 @@ RUN apk update && \
         curl \
         inotify-tools \
         jq \
-        python
+        python \
+        py-jinja2
 
 COPY run.sh /
 COPY expire.sh /

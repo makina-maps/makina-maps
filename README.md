@@ -199,6 +199,14 @@ png tiles <----- X <---------'
 ```
 
 
+## Development
+
+The NGINX cache can bu disabled using:
+```
+NGINX_DISABLE_CACHE=1 docker-compose up
+```
+
+
 ## Benchmark
 
 ### Import size and time

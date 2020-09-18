@@ -2,6 +2,13 @@
 
 set -e
 
+python -c "
+from jinja2 import Template
+from os import environ
+template = Template(open('/etc/nginx/nginx.template.conf').read())
+print(template.render(env = environ))
+" > /etc/nginx/nginx.conf
+
 # Run nginx
 nginx -g "daemon off;" &
 

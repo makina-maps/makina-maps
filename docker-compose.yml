@@ -15,8 +15,10 @@ services:
   nginx:
     build:
       context: nginx
+    environment:
+      - NGINX_DISABLE_CACHE
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.template.conf:/etc/nginx/nginx.template.conf:ro
       - ./cache:/cache
       - ./openmaptiles/data/expire_tiles:/data/expire_tiles
     networks:
