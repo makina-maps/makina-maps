@@ -95,7 +95,7 @@ docker-compose down -v
 
 From root directory. Start the OpenMapTiles database and the web server.
 ```
-cd openmaptiles && make start-postserve && cd ..
+cd openmaptiles && docker-compose up -d postserve && cd ..
 docker-compose up
 ```
 
