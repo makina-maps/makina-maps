@@ -88,8 +88,7 @@ function main() {
                 "sources": {
                     "raster-tiles": {
                         "type": "raster",
-                        "url": `/styles/${layerId}.json`,
-                        "tileSize": 256
+                        "url": `/styles/${layerId}.json`
                     }
                 },
                 "layers": [{
