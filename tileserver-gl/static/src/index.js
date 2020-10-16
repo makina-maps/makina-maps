@@ -71,10 +71,7 @@ function main() {
         json
             .map(source => `
             <input id="${source.id}" type="radio" name="rtoggle" value="${source.id}">
-            <label for="${source.id}">
-                <a href="/styles/${source.id}.json">${source.name}</a>
-                <a href="/styles/${source.id}/wmts.xml">WMTS</a>
-            </label>
+            <label for="${source.id}"><a href="/styles/${source.id}.json">${source.name}</a> <a href="/styles/${source.id}/wmts.xml">WMTS</a></label>
             </br>`)
             .forEach(html => rasterList.append(html));
 

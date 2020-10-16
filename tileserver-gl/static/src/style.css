@@ -12,9 +12,44 @@ body {
 
 #menu {
     position: absolute;
-    background: #fff;
+    background: #221157;
     padding: 10px;
-    font-family: 'Open Sans', sans-serif;
-    opacity: .8;
-    border-bottom-right-radius: 20px;
+    font-family: 'Source Sans Pro Light', sans-serif;
+    color: white;
+    width: 14em;
+    padding-left: 30px;
+    padding-right: 20px;
+    font-size: 80%;
+}
+
+#menu h3 {
+    font-family: 'Source Sans Pro Bold', sans-serif;
+}
+
+#menu h3 img {
+    padding-right: 10px;
+}
+
+#menu h4 {
+    font-family: 'Source Sans Pro Bold', sans-serif;
+    margin-bottom: 0px;
+}
+
+#menu a,
+#menu a:visited {
+    text-decoration: none;
+}
+
+#menu a:hover {
+    text-decoration: underline;
+}
+
+#menu a,
+#menu a:hover,
+#menu a:visited {
+    color: white;
+}
+
+#menu input[type='radio']:checked+label {
+    font-family: 'Source Sans Pro', sans-serif;
 }
