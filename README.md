@@ -207,6 +207,11 @@ NGINX_DISABLE_CACHE=1 docker-compose up
 ```
 
 
+## Monitoring
+
+NGINX server status is available on localhost at `http://127.0.0.1:8082/nginx_status`.
+
+
 ## Benchmark
 
 ### Import size and time
