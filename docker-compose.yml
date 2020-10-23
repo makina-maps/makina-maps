@@ -19,7 +19,7 @@ services:
       - NGINX_DISABLE_CACHE
     volumes:
       - ./nginx/nginx.template.conf:/etc/nginx/nginx.template.conf:ro
-      - ./cache:/cache
+      - nginx-cache:/cache
       - ./openmaptiles/data/expire_tiles:/data/expire_tiles
     networks:
       - openmaptiles_conn
@@ -31,3 +31,6 @@ networks:
   openmaptiles_conn:
     name: openmaptiles_postgres_conn
     driver: bridge
+
+volumes:
+  nginx-cache:
