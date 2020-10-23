@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.0'
 
 services:
   tileserver-gl:
@@ -6,7 +6,6 @@ services:
       context: tileserver-gl/tileserver-gl
     volumes:
       - ./tileserver-gl:/data
-      - ./tileserver-gl/tileserver-gl/src:/usr/src/app/src
       - ./tileserver-gl/static/public/index.html:/usr/src/app/public/templates/index.tmpl
       - ./tileserver-gl/static/public:/usr/src/app/public/resources
     networks:
@@ -15,6 +14,8 @@ services:
   nginx:
     build:
       context: nginx
+    depends_on:
+      - tileserver-gl
     environment:
       - NGINX_DISABLE_CACHE
     volumes:
@@ -24,7 +25,7 @@ services:
     networks:
       - openmaptiles_conn
     ports:
-      - "8080:80"
+      - "${NGINX_PORT:-8080}:80"
       - "127.0.0.1:8082:82"
 
 networks:
