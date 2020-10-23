@@ -42,7 +42,10 @@ function main() {
     $.getJSON('/styles.json', function (json) {
         const layerList = $('#styles');
         json
-            .map(style => `<input id="${style.id}" type="radio" name="rtoggle" value="${style.url}"><label for="${style.name}"><a href="${style.url}">${style.name}</a></label></br>`)
+            .map(style => `<input id="${style.id}" type="radio" name="rtoggle" value="${style.url}">` +
+                `<label for="${style.name}"><a href="${style.url}">${style.name}</a></label>` +
+                (style.hasOwnProperty('source:url') && !style['source:url'].startsWith('mapbox://') ? ` <a href="${style['source:url']}" title="Link to style source." target="_blank">⮊</a>` : '') +
+                `</br>`)
             .forEach(html => layerList.append(html));
 
         const inputs = $('input', layerList);
