@@ -1,7 +1,7 @@
 # Update
 
 ```
-npm install
+npm --development install
 node node_modules/webpack/bin/webpack.js
 ```
 
