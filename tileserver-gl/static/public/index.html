@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta charset="utf-8" />
+        <title>Makina maps</title>
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <meta
+            name="viewport"
+            content="initial-scale=1,maximum-scale=1,user-scalable=no"
+        />
+    </head>
 
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>Makina maps</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <script src="bundle.js"></script>
-</head>
-
-<body>
-    <style>
-    </style>
-    <div id="map"></div>
-    <div id="menu">
-        <h3><img src="logo.png" widht="43" height="39" />Makina Maps</h3>
-        <p><a href="https://github.com/makina-maps/makina-maps">On Github</a></p>
-        <h4 title="Mapbox GL Style JSON, style.json URL available.">
-            GL Styles 🛈
-        </h4>
-        <div id="styles"></div>
-        <h4 title="Enabled vector to raster style. style.json, XYZ and WMS tiles available.">
-            Raster Tiles 🛈
-        </h4>
-        <div id="raster"></div>
-        <h4 title="Tilejson descriptor available">
-            Vector Tiles 🛈
-        </h4>
-        <div id="vector"></div>
-    </div>
-</body>
-
+    <body>
+        <div id="map"></div>
+        <div id="menu">
+            <h3><img src="logo.png" widht="43" height="39" />Makina Maps</h3>
+            <p>
+                <a href="https://github.com/makina-maps/makina-maps"
+                    >On Github</a
+                >
+            </p>
+            <h4 title="Mapbox GL Style JSON, style.json URL available.">
+                GL Styles 🛈
+            </h4>
+            <div id="styles"></div>
+            <h4
+                title="Enabled vector to raster style. style.json, XYZ and WMS tiles available."
+            >
+                Raster Tiles 🛈
+            </h4>
+            <div id="raster"></div>
+            <h4 title="Tilejson descriptor available">Vector Tiles 🛈</h4>
+            <div id="vector"></div>
+        </div>
+        <div id="button-close" class="button">
+            <a href="#" class="circle">✖</a>
+        </div>
+        <div id="button-open" class="button" style="display: none">
+            <a href="#" class="circle">≡</a>
+        </div>
+        <script src="bundle.js"></script>
+    </body>
 </html>

@@ -14,7 +14,7 @@ body {
     position: absolute;
     background: #221157;
     padding: 10px;
-    font-family: 'Source Sans Pro Light', sans-serif;
+    font-family: "Source Sans Pro Light", sans-serif;
     color: white;
     width: 14em;
     padding-left: 30px;
@@ -23,7 +23,7 @@ body {
 }
 
 #menu h3 {
-    font-family: 'Source Sans Pro Bold', sans-serif;
+    font-family: "Source Sans Pro Bold", sans-serif;
 }
 
 #menu h3 img {
@@ -31,7 +31,7 @@ body {
 }
 
 #menu h4 {
-    font-family: 'Source Sans Pro Bold', sans-serif;
+    font-family: "Source Sans Pro Bold", sans-serif;
     margin-bottom: 0px;
 }
 
@@ -50,6 +50,39 @@ body {
     color: white;
 }
 
-#menu input[type='radio']:checked+label {
-    font-family: 'Source Sans Pro', sans-serif;
+#menu input[type="radio"]:checked + label {
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+#button-close {
+    position: absolute;
+    left: 13em;
+    top: 0.5em;
+}
+
+#button-open {
+    position: absolute;
+    left: 0.5em;
+    top: 0.5em;
+}
+
+a.circle {
+    width: 2em;
+    height: 2em;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 2em;
+    vertical-align: middle;
+    display: table-cell;
+    text-decoration: none;
+}
+
+#button-close a.circle {
+    color: #221157;
+    background: #fff;
+}
+
+#button-open a.circle {
+    color: #fff;
+    background: #221157;
 }
