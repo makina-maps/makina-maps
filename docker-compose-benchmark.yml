@@ -11,7 +11,7 @@ services:
       - graphite_configs:/opt/graphite/conf
       - graphite_data:/opt/graphite/storage
     networks:
-      - openmaptiles_conn
+      - openmaptiles-conn
     ports:
       - "8899:80"
 
@@ -21,4 +21,4 @@ services:
     volumes:
       - ./artillery:/artillery
     networks:
-      - openmaptiles_conn
+      - openmaptiles-conn
