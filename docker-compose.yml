@@ -30,7 +30,7 @@ services:
 
 networks:
   openmaptiles_conn:
-    name: openmaptiles_postgres_conn
+    name: openmaptiles_postgres
     driver: bridge
 
 volumes:
