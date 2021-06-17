@@ -24,10 +24,20 @@ body {
 
 #menu h3 {
     font-family: "Source Sans Pro Bold", sans-serif;
+    margin-bottom: -0px;
 }
 
 #menu h3 img {
     padding-right: 10px;
+    vertical-align: middle;
+}
+
+#menu #subtitle {
+    text-align: right;
+}
+
+#menu #subtitle img#makina-corpus {
+    vertical-align: middle;
 }
 
 #menu h4 {
