@@ -1,11 +1,11 @@
 # Update
 
 ```
-npm --development install
-node node_modules/webpack/bin/webpack.js
+yarn install
+yarn build
 ```
 
 For debug use
 ```
-node node_modules/webpack/bin/webpack.js --mode development
+yarn serve
 ```
