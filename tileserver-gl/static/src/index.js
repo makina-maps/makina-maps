@@ -1,6 +1,6 @@
 import "./style.css";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import maplibre from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 function getHashParam(hashParameterName) {
     let dummyURL = new URL("https://dummy.com");
@@ -112,24 +112,24 @@ fetch("/data.json")
             );
     });
 
-const map = new mapboxgl.Map({
+const map = new maplibre.Map({
     container: "map",
     zoom: 3,
     hash: "map",
     center: [4.899, 52.372],
 });
 
-map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new maplibre.NavigationControl());
 
 map.addControl(
-    new mapboxgl.ScaleControl({
+    new maplibre.ScaleControl({
         maxWidth: 80,
         unit: "metric",
     })
 );
 
 map.addControl(
-    new mapboxgl.FullscreenControl({
+    new maplibre.FullscreenControl({
         container: document.querySelector("body"),
     })
 );
