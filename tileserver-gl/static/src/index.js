@@ -25,17 +25,20 @@ function setHashStyle(style) {
 fetch("/styles.json")
     .then((result) => result.json())
     .then((json) => {
-        const layerList = document.getElementById("styles");
+        const layerList = document.getElementById("styles_vector");
         json.map(
             (style) =>
                 `<input id="${style.id}" type="radio" name="rtoggle" value="${style.url}">` +
                 `<label for="${style.name}"><a href="${style.url}">${style.name}</a></label>` +
                 (style.hasOwnProperty("source:url") &&
-                !style["source:url"].startsWith("mapbox://")
+                    !style["source:url"].startsWith("mapbox://")
                     ? ` <a href="${style["source:url"]}" title="Link to style source." target="_blank">⮊</a>`
                     : "") +
                 `</br>`
-        ).forEach((html) => layerList.insertAdjacentHTML("beforeend", html));
+        ).forEach((html) => {
+            layerList.insertAdjacentHTML("beforeend", html);
+            layerList.style.display = '';
+        });
 
         const inputs = layerList.querySelectorAll("input");
         const radiobtn = document.getElementById(getHashParam("style"));
@@ -61,13 +64,16 @@ fetch("/styles.json")
 fetch("/rendered.json")
     .then((response) => response.json())
     .then((json) => {
-        const rasterList = document.getElementById("raster");
+        const rasterList = document.getElementById("styles_raster");
         json.map(
             (source) => `
             <input id="${source.id}" type="radio" name="rtoggle" value="${source.id}">
             <label for="${source.id}"><a href="/styles/${source.id}.json">${source.name}</a> <a href="/styles/${source.id}/wmts.xml">WMTS</a></label>
             </br>`
-        ).forEach((html) => rasterList.insertAdjacentHTML("beforeend", html));
+        ).forEach((html) => {
+            rasterList.insertAdjacentHTML("beforeend", html);
+            rasterList.style.display = '';
+        });
 
         const inputs = rasterList.querySelectorAll("input");
 
@@ -101,15 +107,27 @@ fetch("/rendered.json")
 fetch("/data.json")
     .then((response) => response.json())
     .then((json) => {
-        const vectorList = document.getElementById("vector");
+        const vectorList = document.getElementById("tiles_vector");
         json.filter((source) => !source.format || source.format.includes("pbf"))
             .map(
                 (source) =>
                     `<a href="/data/${source.id}.json">${source.name}</a></br>`
             )
-            .forEach((html) =>
+            .forEach((html) => {
                 vectorList.insertAdjacentHTML("beforeend", html)
-            );
+                vectorList.style.display = '';
+            });
+
+        const rasterList = document.getElementById("tiles_raster");
+        json.filter((source) => source.format && ["png", "jpg", "jpeg", "webp"].includes(source.format))
+            .map(
+                (source) =>
+                    `<a href="/data/${source.id}.json">${source.name}</a></br>`
+            )
+            .forEach((html) => {
+                rasterList.insertAdjacentHTML("beforeend", html)
+                rasterList.style.display = '';
+            });
     });
 
 const map = new maplibre.Map({

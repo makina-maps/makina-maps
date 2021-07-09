@@ -22,19 +22,38 @@
             </a>
             by
             <a hre="https://makina-corpus.com/">
-                <img id="makina-corpus" src="makina-corpus.png" widht="50" height="54" src="makina-corpus.com" alt="Makina Corpus" />
+                <img id="makina-corpus" src="makina-corpus.png" widht="50" height="54" src="makina-corpus.com"
+                    alt="Makina Corpus" />
             </a>
         </div>
-        <h4 title="Mapbox GL Style JSON, style.json URL available.">
-            GL Styles 🛈
-        </h4>
-        <div id="styles"></div>
-        <h4 title="Enabled vector to raster style. style.json, XYZ and WMS tiles available.">
-            Raster Tiles 🛈
-        </h4>
-        <div id="raster"></div>
-        <h4 title="Tilejson descriptor available">Vector Tiles 🛈</h4>
-        <div id="vector"></div>
+
+        <div id="styles_vector" style="display: none;">
+            <h4 title="Mapbox/MapLibre GL Style JSON, style.json URL available.">
+                Styles GL 🛈
+            </h4>
+            <div></div>
+        </div>
+
+        <div id="styles_raster" style="display: none;">
+            <h4 title="Available vector to raster style. style.json, XYZ and WMS.">
+                Styles Raster 🛈
+            </h4>
+            <div></div>
+        </div>
+
+        <div id="tiles_vector" style="display: none;">
+            <h4 title="Tilejson descriptor of vector tiles">
+                Tiles Vector 🛈
+            </h4>
+            <div></div>
+        </div>
+
+        <div id="tiles_raster" style="display: none;">
+            <h4 title="Tilejson descriptor of precomputed raster tiles">
+                Tiles Raster 🛈
+            </h4>
+            <div></div>
+        </div>
     </div>
     <div id="button-close" class="button">
         <a href="#" class="circle">✖</a>
