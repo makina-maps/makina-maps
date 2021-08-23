@@ -91,6 +91,7 @@ Imposm marks tiles to expire. Then a script in the nginx container watches and e
 To reset the tile server from a previous install (does not touch the OpenMapTiles database), run:
 ```
 docker-compose down -v
+docker volume rm makina-maps_nginx-cache  # Reseet the nginx cache
 ```
 
 From root directory. Start the OpenMapTiles database and the web server.
