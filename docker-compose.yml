@@ -30,6 +30,7 @@ services:
 
 networks:
   openmaptiles_conn:
+    external: true
     name: openmaptiles_postgres
     driver: bridge
 
