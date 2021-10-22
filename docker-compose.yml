@@ -18,6 +18,8 @@ services:
       - tileserver-gl
     environment:
       - NGINX_DISABLE_CACHE
+      - CACHE_KEYS_ZONE_SIZE=50m # 8000 tile keys per 1m, in memory
+      - CACHE_MAX_SIZE=20g # File storage
     volumes:
       - ./nginx/nginx.template.conf:/etc/nginx/nginx.template.conf:ro
       - nginx-cache:/cache

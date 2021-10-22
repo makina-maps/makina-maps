@@ -176,6 +176,14 @@ The vector tiles source (tilejon) should be overwritten to expose public URLs.
 
 The tiles URLs in tilejson from vector tiles producer are internal to the docker-compose and refer to internal host. Should be redefined as public URLs for outside world.
 
+### Tiles cache
+
+Environment variable define the size of the cache of tiles.
+```yaml
+      - CACHE_KEYS_ZONE_SIZE=50m # 8000 tile keys per 1m, in memory
+      - CACHE_MAX_SIZE=20g # File storage
+```
+
 
 ## Overview
 
