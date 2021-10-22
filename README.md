@@ -184,6 +184,16 @@ Environment variable define the size of the cache of tiles.
       - CACHE_MAX_SIZE=20g # File storage
 ```
 
+### Download Tiles Rate Limit
+
+There is a rate limit for typical browser usage in NGINX configuration.
+
+The rate limit can be increased using an URL parameter `key` or by host white list. It is mainly to allow tiles download at higher speed. Should be configured in `nginx/map`
+
+```
+"this-secret-key-allows-download-at-highspeed" "";
+```
+
 
 ## Overview
 
