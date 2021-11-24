@@ -22,6 +22,7 @@ services:
       - CACHE_MAX_SIZE=20g # File storage
     volumes:
       - ./nginx/nginx.template.conf:/etc/nginx/nginx.template.conf:ro
+      - ./nginx/maps:/etc/nginx/maps:ro
       - nginx-cache:/cache
       - ./openmaptiles/data/expire_tiles:/data/expire_tiles
     networks:
