@@ -2,7 +2,7 @@
 
 set -e
 
-python -c "
+python3 -c "
 from jinja2 import Template
 from os import environ
 template = Template(open('/etc/nginx/nginx.template.conf').read())
