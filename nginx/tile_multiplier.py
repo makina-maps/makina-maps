@@ -11,7 +11,7 @@ def print_once(z, x, y):
         num_tiles = len(tile_set)
         tile_set.add(tile)
         if num_tiles < len(tile_set):
-            print tile
+            print(tile)
 
 for line in sys.stdin:
     z, x, y = [int(i) for i in line.split('/')]
