@@ -27,7 +27,6 @@ make
 time bash -c "\
 docker-compose run --rm openmaptiles-tools bash -c 'chmod a+w /cache/' && \
 make import-osm && \
-make import-borders && \
 make import-sql && \
 make import-wikidata && \
 make analyze-db
