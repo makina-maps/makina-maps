@@ -99,14 +99,14 @@ cd openmaptiles && docker-compose up -d postgres postserve && cd ..
 docker-compose up
 ```
 
-Access to cached tiles and services at:
+Access to cached tiles and services at the following URLs - assuming your are hosting locally:
 
-* Demo: http://0.0.0.0:8080
-* OpenMapTiles TileJson: http://0.0.0.0:8080/data/v3.json
-* Default "Bright" GL JSON Style: http://0.0.0.0:8080/styles/bright/style.json
+* Demo: http://127.0.0.1:8080
+* OpenMapTiles TileJson: http://127.0.0.1:8080/data/v3.json
+* Default "Bright" GL JSON Style: http://127.0.0.1:8080/styles/bright/style.json
 * Default "Bright" raster:
-  * TileJSON: http://0.0.0.0:8080/styles/bright.json
-  * Raster tiles: http://0.0.0.0:8080/styles/bright/{z}/{x}/{y}.png
+  * TileJSON: http://127.0.0.1:8080/styles/bright.json
+  * Raster tiles: http://127.0.0.1:8080/styles/bright/{z}/{x}/{y}.png
 
 ## Configuration
 
