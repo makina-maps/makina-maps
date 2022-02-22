@@ -85,6 +85,7 @@ fetch("/rendered.json")
                 sources: {
                     "raster-tiles": {
                         type: "raster",
+                        tileSize: 256,
                         url: `/styles/${layerId}.json`,
                     },
                 },
