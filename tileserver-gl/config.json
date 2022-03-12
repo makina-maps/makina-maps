@@ -38,7 +38,7 @@
       "remote_tilejson": "http://postserve:8090/",
       "tilejson": {
         "tiles": [
-          "http://localhost:8080/data/v3/{z}/{x}/{y}.pbf"
+          "http://nginx/data/v3/{z}/{x}/{y}.pbf"
         ]
       }
     }
